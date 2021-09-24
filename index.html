@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Cerca Pokémon</title>
+  <script src="https://use.fontawesome.com/fa4e67e080.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Iceland" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+</head>
+<body>
+<div class="container">
+  <div class="searchBar">
+    <form action="">
+      <label for="pokemon">Cerca Pokémon</label>
+      <input type="text" name="pokemon" id="search">
+    </form>
+  </div>
+
+  <div id="pokeOutput">
+    <div class="top-container">
+      <div class="image-container">
+
+        <div class="poke-name-num">
+          <span class="name poke-info"></span>
+          <span class="idNum poke-info"></span>
+        </div>
+
+        <img src="" alt="" id="pokeImage">
+        <div id="types"></div>
+      </div>
+    </div>
+
+    <div class="bottom-container">
+
+      <table>
+        <tr>
+          <td class="hp"></td>
+        </tr>
+        <tr><td class="attack"></td>
+        </tr>
+        <tr>
+          <td class="defense"></td>
+        </tr>
+      </table>
+
+
+    </div>
+  </div>
+</div>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script><script  src="./script.js"></script>
+
+</body>
+</html>
