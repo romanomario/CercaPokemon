@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $("form").on("submit", function(e) {
+  $("form").on("submit", function(e){
     e.preventDefault();
 
     function createCORSRequest(method, url) {
@@ -22,26 +22,6 @@ $(document).ready(function() {
       return text.match("<title>(.*)?</title>")[1];
     }
     // Realizzare la seguente richiesta CORS
-    function makeCorsRequest() {
-      // Un server di esempio che supporta la richiesta CORS
-      var url =
-        "http://html5rocks-cors.s3-website-us-east-1.amazonaws.com/index.html";
-      var xhr = createCORSRequest("GET", url);
-      if (!xhr) {
-        alert("CORS not supported");
-        return;
-      }
-      // Response handlers.
-      xhr.onload = function() {
-        var text = xhr.responseText;
-        var title = getTitle(text);
-        alert("Response from CORS request to " + url + ": " + title);
-      };
-      xhr.onerror = function() {
-        alert("Woops, there was an error making the request.");
-      };
-      xhr.send();
-    }
 
     var userInput = $("#search").val();
     var url = "https://pokeapi.co/api/v2/pokemon/" + userInput;
