@@ -1,5 +1,6 @@
 $(document).ready(function() {
-  $("form").on("submit", function(e){
+  $("form").keyup(delay(function(e){
+    console.log('Time elapsed!',this.value);
     e.preventDefault();
 
     function createCORSRequest(method, url) {
@@ -34,7 +35,7 @@ $(document).ready(function() {
       success: function(data) {
         var name = data.forms[0].name,
           pokeImgFront = data.sprites.front_default,
-          shiny = false,
+          pokeImgBack = data.sprites.back_default,
           frontImg = true,
           speed ="<span class='stat'>Velocità: </span>" + data.stats[0].base_stat ,
           spDef ="<span class='stat'>Difesa speciale </span>" + data.stats[1].base_stat,
@@ -85,6 +86,20 @@ $(document).ready(function() {
           }
         }
 
+        $("#defaultBtn").click(function() {
+          $("#pokeImage").attr("src", pokeImgFront);
+          frontImg = true;
+        });
+        $(".changeBtn").click(function() {
+          if (frontImg == true) {
+            frontImg = false;
+             $("#pokeImage").attr("src", pokeImgBack);
+          } else if (frontImg == false) {
+            frontImg = true;
+             $("#pokeImage").attr("src", pokeImgFront);
+          }
+        });
+
         $(".name").html(name);
         $(".idNum").html(id);
         $("#pokeImage").attr("src", pokeImgFront);
@@ -97,5 +112,16 @@ $(document).ready(function() {
         pokemonType(types);
       } //SUCCESS
     }); //AJAX
-  }); //FORM
+  },500));
+      function delay(callback, ms) {
+      var timer = 0;
+        return function() {
+          var context = this, args = arguments;
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+           callback.apply(context, args);
+        }, ms || 0);
+      };
+    }
+   //FORM
 });

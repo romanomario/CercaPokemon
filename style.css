@@ -14,7 +14,7 @@
 
 
 body {
-  background-color: #ff0000;
+  background-color: #CC0000;
 }
 
 .searchBar {
@@ -29,7 +29,7 @@ body {
   font-family: Pokemon Solid;
   color: #FFCB05;
   text-align: center;
-  text-shadow: 6px 0 0 #3D7DCA, -6px 0 0 #3D7DCA, 0 6px 0 #3D7DCA, 0 -6px 0 #3D7DCA, 6px 6px #3D7DCA, -4px -4px 0 #3D7DCA, 4px -4px 0 #3D7DCA, -4px 4px 0 #3D7DCA;
+  text-shadow: 6px 0 0 #3D7DCA, -6px 0 0 #003A70, 0 6px 0 #003A70, 0 -6px 0 #3D7DCA, 6px 6px #003A70, -4px -4px 0 #003A70, 4px -4px 0 #003A70, -4px 4px 0 #003A70;
 
 }
 
