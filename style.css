@@ -95,28 +95,6 @@ input[type=text] {
   box-shadow: 10px 10px 0px 0px rgba(0, 0, 0, 0.75);
 }
 
-button:hover {
-  border: 2px solid #e8332a;
-}
-
-button:active {
-  background-color: #f4f1f1;
-}
-
-.bigBtn {
-  height: 40px;
-  width: 120px;
-  font-weight: 700;
-  position: relative;
-  top: -2px;
-}
-
-.changeBtn {
-  height: 40px;
-  width: 54px;
-  font-size: 1.5rem;
-}
-
 table {
   border-collapse: collapse;
   width: 100%;
