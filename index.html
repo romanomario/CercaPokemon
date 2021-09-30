@@ -16,8 +16,12 @@
   <div class="container">
     <div class="searchBar">
       <form action="">
-        <input type="text" name="pokemon" id="search" autofocus>
+        <input type="text" name="pokemon" id="search" autocomplete="off" autofocus>
       </form>
+    </div>
+
+    <div id="errorOut">
+       <h5 class="error"></h5>
     </div>
 
     <div id="pokeOutput">
@@ -27,7 +31,6 @@
             <span class="name poke-info"></span>
             <span class="idNum poke-info"></span>
           </div>
-
           <img src="" alt="" id="pokeImage" class="changeBtn">
           <div id="types"></div>
         </div>

@@ -1,6 +1,5 @@
 $(document).ready(function() {
     $("form").keyup(delay(function(e) {
-        console.log('Time elapsed!', this.value);
         e.preventDefault();
 
         function createCORSRequest(method, url) {
@@ -26,16 +25,25 @@ $(document).ready(function() {
 
         //la stringa viene passata in "$(#search").val();"
         var userInput = $("#search").val();
-        Ricerca(userInput);
+        document.getElementById('errorOut').style.display = "none";
+
+        if(!userInput){
+            document.getElementById('pokeOutput').style.display = "none";
+
+        } else Ricerca(userInput);
 
         function Ricerca(userInput){
             var url = "https://pokeapi.co/api/v2/pokemon/" + userInput;
-            document.getElementById('pokeOutput').style.display = "block";
+
             $.ajax({
                 url: url,
                 dataType: "json",
                 method: "GET",
                 success: function(data) {
+                    document.getElementById('pokeOutput').style.display = "block";
+                    document.getElementById('errorOut').style.display = "none";
+
+
                     var name = data.forms[0].name,
                         pokeImgFront = data.sprites.front_default,
                         pokeImgBack = data.sprites.back_default,
@@ -112,7 +120,6 @@ $(document).ready(function() {
                 }, //SUCCESS
                 error: function(xhr, ajaxOptions, thrownError) {
                     if (xhr.status == 404) {
-                        console.log("siamo nel 404 mfk");
                         RicercaParziale(userInput);
                     }
                 }
@@ -125,16 +132,24 @@ $(document).ready(function() {
                             method: "GET",
                             success: function(data2) {
                                 var len = userInput.length;
-                                for (var i = 0, res = false; i < data2.results.length && res == false; i++) {
+                                var res = false;
+                                for (var i = 0; i < data2.results.length && res == false; i++) {
                                     var x = data2.results[i].name.substr(0, len);
                                     if ($("#search").val() == x) {
                                         console.log("Forse intendevi " + data2.results[i].name);
                                         res = true;
                                     }
+                                    
                                 }
-                                 Ricerca(data2.results[i-1].name);            
-                            }
-                         
+
+                            if(res){
+                                Ricerca(data2.results[i-1].name);
+                            }else
+                                document.getElementById('pokeOutput').style.display = "none";
+                                var error = "<span class='stat'>Spiacenti non è stato trovato nessun pokemon: </span>";
+                                $(".error").html(error);
+                                document.getElementById('errorOut').style.display = "block";
+                            } 
                         })
             }
         }, 200));
