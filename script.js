@@ -146,7 +146,7 @@ $(document).ready(function() {
                                 Ricerca(data2.results[i-1].name);
                             }else
                                 document.getElementById('pokeOutput').style.display = "none";
-                                var error = "<span class='stat'>Spiacenti non è stato trovato nessun pokemon: </span>";
+                                var error = "<span class='stat'>Spiacenti non è stato trovato nessun pokemon: </span>" + userInput;
                                 $(".error").html(error);
                                 document.getElementById('errorOut').style.display = "block";
                             } 
