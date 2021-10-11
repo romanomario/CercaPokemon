@@ -2,22 +2,6 @@ $(document).ready(function() {
     $("form").keyup(delay(function(e) {
         e.preventDefault();
 
-        function createCORSRequest(method, url) {
-            var xhr = new XMLHttpRequest();
-            if ("withCredentials" in xhr) {
-                // XHR per Chrome/Firefox/Opera/Safari
-                xhr.open(method, url, true);
-            } else if (typeof XDomainRequest != "undefined") {
-                // XDomainRequest per IE
-                xhr = new XDomainRequest();
-                xhr.open(method, url);
-            } else {
-                // CORS non supportato
-                xhr = null;
-            }
-            return xhr;
-        }
-        //Metodo di supporto per analizzare il tag del titolo dalla risposta
         function getTitle(text) {
             return text.match("<title>(.*)?</title>")[1];
         }
