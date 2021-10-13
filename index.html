@@ -5,10 +5,11 @@
   <title>Cerca Pokémon</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
   <link rel="stylesheet" type="text/css" href="style.css">
-  <script src="https://use.fontawesome.com/fa4e67e080.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap"
+            rel="stylesheet"/>
 </head>
 <body>    
   <h1 class="title">Cerca Pokémon</h1>
@@ -16,46 +17,13 @@
    
     <div class="searchBar">
       <form method="post">
-        <input type="text" name="pokemon" id="search" autocomplete="off" placeholder="Es: Charizard o 6" autofocus >
+        <input type="text" name="pokemon" id="search" autocomplete="off" placeholder="Es: Charizard" autofocus >
       </form>      
       <div id="loading"></div>
     </div>
-
     
+    <ul id="pokedex"></ul>
 
-    <div id="errorOut">
-       <h5 class="error"></h5>
-    </div>
-  
-    <div id="pokeOutput">
-      <div class="top-container">
-        <div class="image-container">
-          <div class="poke-name-num">
-            <span class="name poke-info"></span>
-            <span class="idNum poke-info"></span>
-          </div>
-          <img src="" alt="" id="pokeImage" class="changeBtn">
-          <div id="types"></div>
-        </div>
-      </div>
-
-    <div class="bottom-container">
-      <table>
-        <tr>
-          <td class="hp"></td>
-        </tr>
-        <tr><td class="attack"></td>
-        </tr>
-        <tr>
-          <td class="defense"></td>
-        </tr>
-        <tr>
-          <td class="speed"></td>
-        </tr>
-      </table>
-      </div>
-    </div>
-  </div>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script><script  src="./script.js"></script>
 </body>
 </html>
