@@ -2,6 +2,9 @@ $(document).ready(function() {
     document.getElementById('errorOut').style.display = "none";
     document.getElementById('loading').style.display = "none";
 
+    var typingTimer;         
+    var doneTypingInterval = 500;
+    
     var type = new Array();
     type['normal'] = 'normale';
     type['grass'] = 'erba';
@@ -27,10 +30,13 @@ $(document).ready(function() {
         }
     );
 
-    $("input").keyup(delay(function(e) {
-        console.log("Siamo entrati nella richiesta con keyup");
-        Ricerca();
-    }, 300));
+    $("input").keyup(function(e){
+        clearTimeout(typingTimer);
+        if($("#search").val()){
+            typingTimer = setTimeout(Ricerca, doneTypingInterval);
+        }
+    }
+    );
 
     $("form").on("submit", function(e) {
         e.preventDefault();
@@ -51,17 +57,6 @@ $(document).ready(function() {
         } else RicercaFetch(userInput);
     }
 
-    function delay(callback, ms) {
-        let timer = 0;
-        return function() {
-            let context = this,
-                args = arguments;
-            clearTimeout(timer);
-            timer = setTimeout(function() {
-                callback.apply(context, args);
-            }, ms || 0);
-        };
-    }
     function RicercaFetch(userInput){
             
         const url = "https://pokeapi.co/api/v2/pokemon/" + userInput; 
