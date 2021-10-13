@@ -68,13 +68,11 @@ input[type=text] {
 
 .poke-name-num {
   display: inline-block;
-  float: left;
   margin-left: 5px;
 }
 
 .size {
   display: inline-block;
-  float: right;
   margin-right: 5px;
 }
 
@@ -110,9 +108,6 @@ td,
 th {
   text-align: left;
   padding: 8px;
-}
-
-tr:nth-child(even) {
 }
 
 .pokeType {
@@ -152,7 +147,7 @@ tr:nth-child(even) {
   background-color: #f08030;
 }
 
-.electrico {
+.elettro {
   background-color: #f8d030;
 }
 
@@ -195,3 +190,11 @@ tr:nth-child(even) {
 .folletto {
   background-color: #ffaec9;
 }
+
+#loading {
+  background: url('pokeball.gif') no-repeat center center;
+  position:absolute;
+  height: 10%;
+  width: 10%;
+}
+
