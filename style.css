@@ -19,7 +19,7 @@
 }
 
 .title {
-  font-size: 5rem;
+  font-size: 7em;
   font-family: Pokemon Solid;
   color: #FFCB05;
   text-align: center;
@@ -38,13 +38,13 @@ input[type=text] {
   font-weight: 700;
 }
 
-
+/*
 #loading {
   background: url('pokeball.gif') no-repeat center center;
   position:absolute;
   height: 10%;
   width: 10%;
-}
+}*/
 
 body {
   background-color:  #3B4CCA;
@@ -96,7 +96,8 @@ text-align: center;
 }
 
 .card-image {
-  height: 180px;
+  height: 200px;
+  width: 200px;
 }
 
 @keyframes bounce {

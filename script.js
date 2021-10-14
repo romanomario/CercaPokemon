@@ -2,7 +2,7 @@ $(document).ready(function() {
     document.getElementById('loading').style.display = "none";
 
     var typingTimer;         
-    var doneTypingInterval = 200;
+    var doneTypingInterval = 500;
     var vuoto = new Array();
 
     var tipo = new Array();
@@ -99,7 +99,7 @@ $(document).ready(function() {
             .map(
                 (pokeman) => `
             <li class="card">
-                <img class="card-image" src="${pokeman.image}"/>
+                <img class="card-image mx-auto d-block" src="${pokeman.image}"/>
                 <h2 class="card-title">${pokeman.id}. ${pokeman.name}</h2>
                 <p class="card-subtitle">Tipo:${pokeman.type}</p>
                 <p class="card-subtitle">Attacco: ${pokeman.attack} </p>
