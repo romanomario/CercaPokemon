@@ -30,6 +30,7 @@
 input[type=text] {
   height: 40px;
   padding-left: 10px;
+  width: 90%;
 }
 
 .base-title {

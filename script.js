@@ -3,7 +3,7 @@ $(document).ready(function() {
 
     var typingTimer;         
     var doneTypingInterval = 200;
-    
+
     var tipo = new Array();
     tipo['normal'] = 'Normale';
     tipo['grass'] = 'Erba';
@@ -31,9 +31,7 @@ $(document).ready(function() {
 
     $("input").keyup(function(e){
         clearTimeout(typingTimer);
-        if($("#search").val()){
-            typingTimer = setTimeout(Ricerca, doneTypingInterval);
-        }
+        typingTimer = setTimeout(Ricerca, doneTypingInterval);
     }
     );
 
@@ -49,21 +47,20 @@ $(document).ready(function() {
 
         let userInput = $("#search").val();
 
-        if(!userInput){
-         
-
-        } else{
-            fetchPokemon(userInput);
-        
+        if(userInput == ""){
+            console.log("la lista è vuota");
         }
+        
+        fetchPokemon(userInput);
     }
 
     function fetchPokemon(userInput) {
         const promises = [];
-    
+
         fetch("https://pokeapi.co/api/v2/pokemon?offset=0&limit=900").then(response => {
             if (response.ok) {
                 console.log("Contenuto ricevuto nella ricerca");
+                document.getElementById('error').style.display = "none";
                 response.json().then(data => {
                     let y;
                     let len = userInput.length;
@@ -89,15 +86,17 @@ $(document).ready(function() {
                         }));
                         displayPokemon(pokemon);
                     });
-                    
+                  
+                    if(promises.length == 0){
+                        console.log("promise lengt == 0");
+                        document.getElementById('error').style.display = "block";  
+                        displayError(userInput);
+                      }
     
                   });
-                  if(promises.length == 0){
-                      //aggiungere messaggio di errore
-                      console.log("Non è stata trovata nessuna corrispondeza");
-                  }
+                  
             }
-        }).catch(error => console.log("Si è verificato un errore nella ricerca parziale!"))
+        }).catch(error => console.log("Si è verificato un errore nella ricerca!"))
         
     }
     
@@ -117,5 +116,10 @@ $(document).ready(function() {
             .join('');
       
         document.getElementById('pokedex').innerHTML = pokemonHTMLString;
+    }
+
+
+    function displayError(msg){
+        document.getElementById('error').innerHTML = '<li class="card"><p class="card-subtitle"> Non è stata trovato nessun pokemon '+ msg +'</p></li>';
     }
 });
