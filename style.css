@@ -38,14 +38,6 @@ input[type=text] {
   font-weight: 700;
 }
 
-/*
-#loading {
-  background: url('pokeball.gif') no-repeat center center;
-  position:absolute;
-  height: 10%;
-  width: 10%;
-}*/
-
 body {
   background-color:  #3B4CCA;
   color: white;
