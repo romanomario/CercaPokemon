@@ -22,22 +22,20 @@ $(document).ready(function() {
     tipo['ghost'] = 'Fantasma';
     tipo['fairy'] = 'Folletto';
 
-    $("input").keydown(function(e){
-            document.getElementById('loading').style.display = "block";
-        }
-    );
+    $("input").keydown(function(e) {
+        document.getElementById('loading').style.display = "block";
+    });
 
-    $('input').on('keyup',function(e){
-        setTimeout(function(){  
-        fetchPokemon();
-         },500);
-     
-     });
+    $('input').on('keyup', function(e) {
+        setTimeout(function() {
+            fetchPokemon();
+        }, 500);
+    });
 
     $("form").on("submit", function(e) {
         e.preventDefault();
         console.log("siamo entarti con submit");
-       fetchPokemon();
+        fetchPokemon();
     });
 
     function fetchPokemon() {
@@ -56,12 +54,12 @@ $(document).ready(function() {
                         let x = data.results[i].name.substr(0, len);
                         if (userInput == x) {
                             console.log(data.results[i].name);
-    
+
                             let url = `https://pokeapi.co/api/v2/pokemon/${data.results[i].name}`;
                             promises.push(fetch(url).then((res) => res.json()));
-                        }  
+                        }
                     }
-    
+
                     Promise.all(promises).then((results) => {
                         const pokemon = results.map((result) => ({
                             name: result.name,
@@ -73,23 +71,23 @@ $(document).ready(function() {
                         }));
                         displayPokemon(pokemon);
                     });
-                  
-                    if(promises.length == 0){
-                        document.getElementById('error').style.display = "block";  
+
+                    if (promises.length == 0) {
+                        document.getElementById('error').style.display = "block";
                         displayError(userInput);
-                      }
-    
-                  });
+                    }
+
+                });
             }
-            if(userInput == ""){
-                console.log("Non è stata inserita nessuna stringa" );
+            if (userInput == "") {
+                console.log("Non è stata inserita nessuna stringa");
                 displayPokemon(vuoto);
             }
         }).catch(error => console.log("C'è stato un problema nella ricerca"))
-        
+
     }
-    
-    function displayPokemon(pokemon){
+
+    function displayPokemon(pokemon) {
         const pokemonHTMLString = pokemon
             .map(
                 (pokeman) => `
@@ -103,12 +101,12 @@ $(document).ready(function() {
         `
             )
             .join('');
-      
+
         document.getElementById('pokedex').innerHTML = pokemonHTMLString;
     }
 
-    function displayError(msg){
+    function displayError(msg) {
         console.log("Non è stato trovato nessun pokemon: " + msg);
-        document.getElementById('error').innerHTML = '<li class="card"><p class="card-subtitle"> Non è stato trovato nessun pokemon '+ msg +'</p></li>';
+        document.getElementById('error').innerHTML = '<li class="card"><p class="card-subtitle"> Non è stato trovato nessun pokemon ' + msg + '</p></li>';
     }
 });
