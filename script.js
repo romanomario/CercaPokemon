@@ -2,7 +2,7 @@ $(document).ready(function() {
     document.getElementById('loading').style.display = "none";
 
     let vuoto = new Array();
-    let tipo = new Array();
+    let tipo = {};
     tipo['normal'] = 'Normale';
     tipo['grass'] = 'Erba';
     tipo['ground'] = 'Terra';
@@ -34,28 +34,25 @@ $(document).ready(function() {
 
     $("form").on("submit", function(e) {
         e.preventDefault();
-        console.log("siamo entarti con submit");
         fetchPokemon();
     });
 
     function fetchPokemon() {
+        console.log("Fetch");
         const promises = [];
         document.getElementById('loading').style.display = "none";
         let userInput = $("#search").val().toLowerCase();
         fetch("https://pokeapi.co/api/v2/pokemon?offset=0&limit=900").then(response => {
-            if (response.ok && userInput != "") {
-                console.log("Contenuto ricevuto nella ricerca");
+            if (response.ok && userInput !== "") {
                 document.getElementById('error').style.display = "none";
-                response.json().then(data => {
+                response.json().then((data) => {
                     let y;
                     let len = userInput.length;
-                    let res = false;
+                    //let res = false;
                     for (let i = 0; i < data.results.length; i++) {
                         let x = data.results[i].name.substr(0, len);
-                        if (userInput == x) {
-                            console.log(data.results[i].name);
-
-                            let url = `https://pokeapi.co/api/v2/pokemon/${data.results[i].name}`;
+                        if (userInput === x) {
+                            const url = `https://pokeapi.co/api/v2/pokemon/${data.results[i].name}`;
                             promises.push(fetch(url).then((res) => res.json()));
                         }
                     }
@@ -72,14 +69,14 @@ $(document).ready(function() {
                         displayPokemon(pokemon);
                     });
 
-                    if (promises.length == 0) {
+                    if (promises.length === 0) {
                         document.getElementById('error').style.display = "block";
                         displayError(userInput);
                     }
 
                 });
             }
-            if (userInput == "") {
+            if (userInput === "") {
                 console.log("Non è stata inserita nessuna stringa");
                 displayPokemon(vuoto);
             }
@@ -89,12 +86,11 @@ $(document).ready(function() {
 
     function displayPokemon(pokemon) {
         const pokemonHTMLString = pokemon
-            .map(
-                (pokeman) => `
+            .map((pokeman) => `
             <li class="card">
                 <img class="card-image mx-auto d-block" src="${pokeman.image}"/>
                 <h2 class="card-title">${pokeman.id}. ${pokeman.name}</h2>
-                <p class="card-subtitle">Tipo:${pokeman.type}</p>
+                <p class="card-subtitle">Tipo: ${pokeman.type}</p>
                 <p class="card-subtitle">Attacco: ${pokeman.attack} </p>
                 <p class="card-subtitle">Difesa: ${pokeman.defense} </p>
             </li>
