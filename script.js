@@ -4,12 +4,12 @@ $(document).ready(function() {
     $("input").keydown(function(e) {
         displayBlock('loading');
     });
-    
+    /*
     $('input').on('keyup', function(e) {
         setTimeout(function() {
         Ricerca();
         }, 500);
-    });
+    });*/
     
     $("form").on("submit", function(e) {
         e.preventDefault();
@@ -19,16 +19,16 @@ $(document).ready(function() {
 });
 function Ricerca(){
     let userInput = document.getElementById('search').value.toLowerCase();
-    
+    console.log("chiamiamo Ricerca");
+    displayPokemon(fetchPokemon(userInput));
+    /*
     if(userInput === ""){ 
         displayPokemon([]);
     }else{
         displayNone('loading');
         displayNone('error');
-        
-        var x = fetchPokemon(userInput);
-        console.log(x);
-    }
+        fetchPokemon(userInput);
+    }*/
 }
 
 function displayNone(id){
@@ -43,6 +43,7 @@ function displayError(msg) {
 }
 
 function displayPokemon(pokemon) {
+    console.log(pokemon);
     const pokemonHTMLString = pokemon
         .map((pokeman) => `
         <li class="card">
@@ -55,6 +56,7 @@ function displayPokemon(pokemon) {
     `
         )
         .join('');
+
     document.getElementById('pokedex').innerHTML = pokemonHTMLString;
 }
 
