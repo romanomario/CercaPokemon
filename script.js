@@ -5,30 +5,40 @@ $(document).ready(function() {
         displayBlock('loading');
     });
     
-    $('input').on('keyup', function(e) {
-        setTimeout(function() {
+    var timeout = null
+$('input').on('keyup', function(e) {
+    clearTimeout(timeout)
+    timeout = setTimeout(function() {
+        e.preventDefault();
+        console.log("Siamo entrati con keyup");
         Ricerca();
-        }, 500);
-    });
+    }, 500)
+})
     
     $("form").on("submit", function(e) {
         e.preventDefault();
+        console.log("Siamo entrati con submit");
         Ricerca();
-        
     });
 });
+
 function Ricerca(){
     const userInput = document.getElementById('search').value.toLowerCase();
         
-    if(userInput === ""){ 
+    if(userInput == ""){ 
         displayPokemon([]);
+        displayNone('loading');
+        displayNone('error');
     }else{
         displayNone('error');
         fetchPokemon(userInput).then((pokemonList) =>{
+            if(pokemonList == false){
+                displayError(userInput);
+                displayBlock('error');
+            }
             displayPokemon(pokemonList);
         }).catch((err) => {
-            console.error(err);
-            displayBlock('error');
+            console.log(err);
         }).finally(() => {
             displayNone('loading');
         });
@@ -47,7 +57,6 @@ function displayError(msg) {
 }
 
 function displayPokemon(pokemon) {
-   
     const pokemonHTMLString = pokemon
         .map((pokeman) => `
         <li class="card">
@@ -60,7 +69,7 @@ function displayPokemon(pokemon) {
     `
         )
         .join('');
-
-    document.getElementById('pokedex').innerHTML = pokemonHTMLString;
     
+    
+    document.getElementById('pokedex').innerHTML = pokemonHTMLString;
 }

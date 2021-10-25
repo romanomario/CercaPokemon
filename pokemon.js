@@ -17,20 +17,6 @@ const tipo = {
     ghost: 'Fantasma',
     fairy: 'Folletto',
 };
-/** 
-function ciaoMio(){
-    return ciao().then((numeri) => {
-        let sum = 0;
-        numeri.forEach(numero => {
-            sum = sum + numero;
-        });
-        return sum;
-    })
-}
-
-ciaoMio().then((sum) => {
-    console.log(sum);
-}) */
 
 function fetchPokemon(userInput) {
     return fetch("https://pokeapi.co/api/v2/pokemon?offset=0&limit=900").then((response) => response.json())
