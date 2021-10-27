@@ -18,10 +18,19 @@ const tipo = {
     fairy: 'Folletto',
 };
 
+function occ(userInput,item){
+    for (let i = 0; i < item.name.length; i++) {
+        if(userInput === item.name.substr(i,userInput.length)){
+            console.log(item.name + " => " + userInput);
+            return item;
+        }
+    }
+}
+
 function fetchPokemon(userInput) {
     return fetch("https://pokeapi.co/api/v2/pokemon?offset=0&limit=900").then((response) => response.json())
         .then((data) => {
-            const promises = data.results.filter((item) => userInput === item.name.substr(0, userInput.length))
+            const promises = data.results.filter((item) => occ(userInput, item))
                 .map((item) => fetch(`https://pokeapi.co/api/v2/pokemon/${item.name}`).then((response) => response.json())
                     .then((data) => ({
                         name: data.name,
