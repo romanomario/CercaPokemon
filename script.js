@@ -59,6 +59,32 @@ function displayError(msg) {
 function displayPokemon(pokemon) {
     const pokemonHTMLString = pokemon
         .map((pokeman) => `
+        <form id="${pokeman.id}" action="pokemon.html">
+        <li class="card" onclick="scheda(this.id)" id="${pokeman.id}" >
+            <img class="card-image mx-auto d-block" src="${pokeman.image}"/>
+            <h2 class="card-title">${pokeman.id}. ${pokeman.name}</h2>
+            <p class="card-subtitle">Tipo: ${pokeman.type}</p>
+            <p class="card-subtitle">Attacco: ${pokeman.attack} </p>
+            <p class="card-subtitle">Difesa: ${pokeman.defense} </p>
+            <input type = "hidden" name = "nome" value = "${pokeman.name}" />
+            </li>
+        </form>
+    `
+        )
+        .join('');
+    
+    
+    document.getElementById('pokedex').innerHTML = pokemonHTMLString;
+}
+
+function scheda(val){
+    console.log("è stato cliccato " + val);
+    document.getElementById(val).submit();
+}
+
+function displayPokemon2(pokemon) {
+    const pokemonHTMLString = pokemon
+        .map((pokeman) => `
         <li class="card">
             <img class="card-image mx-auto d-block" src="${pokeman.image}"/>
             <h2 class="card-title">${pokeman.id}. ${pokeman.name}</h2>
@@ -71,5 +97,5 @@ function displayPokemon(pokemon) {
         .join('');
     
     
-    document.getElementById('pokedex').innerHTML = pokemonHTMLString;
+    document.getElementById('pokemon').innerHTML = pokemonHTMLString;
 }
