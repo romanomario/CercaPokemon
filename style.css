@@ -93,6 +93,31 @@ h1 {
   width: 200px;
 }
 
+.card2 {
+  list-style: none;
+  padding: 40px;
+  background-color: #f4f4f4;
+  color: #222;
+  text-align: center;
+}
+
+.card2:hover {
+  animation: bounce 0.5s linear;
+}
+
+.card-title2 {
+  text-transform: capitalize;
+  margin-bottom: 0px;
+  font-size: 32px;
+  font-weight: normal;
+}
+
+.card-subtitle2 {
+  margin-top: 5px;
+  color: #666;
+  font-weight: lighter;
+}
+
 @keyframes bounce {
   20% {
       transform: translateY(-6px);

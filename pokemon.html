@@ -8,7 +8,6 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet" />
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-    <script src="./script.js"></script>
     <script src="./pokemon.js"></script>
     <script>
         var queryString = window.location.search;
@@ -30,7 +29,7 @@
                 .map((item) => fetch(`https://pokeapi.co/api/v2/pokemon/${item.name}`).then((response) => response.json())
                     .then((data) => ({
                         name: data.name,
-                        imageFront: data.sprites['front_default'],
+                        image: data.sprites['front_default'],
                         type: data.types.map((type) => tipo[type.type.name]).join(' '),
                         id: data.id,
                         hp: data.stats[0].base_stat,
@@ -39,12 +38,37 @@
                         special_attack: data.stats[3].base_stat,
                         special_defense: data.stats[4].base_stat,
                         speed: data.stats[5].base_stat,
-                        wheight: data.weight,
+                        weight: data.weight,
                         height: data.height,
                     })));
         return Promise.all(promises);
     });
     }   
+
+    
+function displayPokemonComplete(pokemon) {
+    const pokemonHTMLString = pokemon
+        .map((pokeman) => `
+        <li class="card">
+            <img class="card-image mx-auto d-block" src="${pokeman.image}"/>
+            <h2 class="card-title">${pokeman.id}. ${pokeman.name}</h2>
+        </li>
+        <li class="card">
+            <p class="card-subtitle">Tipo: ${pokeman.type}</p>
+            <p class="card-subtitle">Attacco: ${pokeman.attack} </p>
+            <p class="card-subtitle">Attacco Speciale: ${pokeman.special_attack} </p>
+            <p class="card-subtitle">Difesa: ${pokeman.defense} </p>
+            <p class="card-subtitle">Difesa Speciale: ${pokeman.special_defense} </p>
+            <p class="card-subtitle">Altezza: ${pokeman.height} </p>
+            <p class="card-subtitle">Peso: ${pokeman.weight} </p>
+            <p class="card-subtitle">Velocità: ${pokeman.speed} </p>
+        </li>
+    `
+        )
+        .join('');
+    
+    document.getElementById('pokemon').innerHTML = pokemonHTMLString;
+}
 
     </script>
 
