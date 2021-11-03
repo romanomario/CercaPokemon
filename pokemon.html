@@ -17,18 +17,41 @@
         var nome = urlParams.get('nome');
         console.log("questa pagine deve visualizzare il pokemon " + nome);
         
-        fetchPokemon(nome).then((pokemonList) =>{
+        fetchPokemonComplete(nome).then((pokemonList) =>{
             if(pokemonList == false){
             }
-            displayPokemon2(pokemonList);
+            displayPokemonComplete(pokemonList);
         });
+
+        function fetchPokemonComplete(userInput) {
+            return fetch("https://pokeapi.co/api/v2/pokemon?offset=0&limit=900").then((response) => response.json())
+        .then((data) => {
+            const promises = data.results.filter((item) => occ(userInput, item))
+                .map((item) => fetch(`https://pokeapi.co/api/v2/pokemon/${item.name}`).then((response) => response.json())
+                    .then((data) => ({
+                        name: data.name,
+                        imageFront: data.sprites['front_default'],
+                        type: data.types.map((type) => tipo[type.type.name]).join(' '),
+                        id: data.id,
+                        hp: data.stats[0].base_stat,
+                        attack: data.stats[1].base_stat,
+                        defense: data.stats[2].base_stat,
+                        special_attack: data.stats[3].base_stat,
+                        special_defense: data.stats[4].base_stat,
+                        speed: data.stats[5].base_stat,
+                        wheight: data.weight,
+                        height: data.height,
+                    })));
+        return Promise.all(promises);
+    });
+    }   
 
     </script>
 
     <title></title>
 </head>
 <body>
-    <h1 class="title my-4">Pokémon</h1>
+    <h1 class="title my-4">Cerca Pokémon</h1>
     <div class="container">
         <div class="my-3">
             <div class="center">

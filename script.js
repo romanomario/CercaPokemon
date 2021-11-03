@@ -82,7 +82,7 @@ function scheda(val){
     document.getElementById(val).submit();
 }
 
-function displayPokemon2(pokemon) {
+function displayPokemonComplete(pokemon) {
     const pokemonHTMLString = pokemon
         .map((pokeman) => `
         <li class="card">
@@ -90,12 +90,16 @@ function displayPokemon2(pokemon) {
             <h2 class="card-title">${pokeman.id}. ${pokeman.name}</h2>
             <p class="card-subtitle">Tipo: ${pokeman.type}</p>
             <p class="card-subtitle">Attacco: ${pokeman.attack} </p>
+            <p class="card-subtitle">Attacco Speciale: ${pokeman.special_attack} </p>
             <p class="card-subtitle">Difesa: ${pokeman.defense} </p>
+            <p class="card-subtitle">Difesa Speciale: ${pokeman.special_defense} </p>
+            <p class="card-subtitle">Altezza: ${pokeman.height} </p>
+            <p class="card-subtitle">Peso: ${pokeman.weight} </p>
+            <p class="card-subtitle">Velocità: ${pokeman.speed} </p>
         </li>
     `
         )
         .join('');
-    
     
     document.getElementById('pokemon').innerHTML = pokemonHTMLString;
 }

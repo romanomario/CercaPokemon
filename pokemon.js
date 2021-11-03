@@ -34,15 +34,25 @@ function fetchPokemon(userInput) {
                 .map((item) => fetch(`https://pokeapi.co/api/v2/pokemon/${item.name}`).then((response) => response.json())
                     .then((data) => ({
                         name: data.name,
-                        image: data.sprites['front_default'],
+                        imageFront: data.sprites['front_default'],
+                        imageBack = data.sprites['back_default'],
                         type: data.types.map((type) => tipo[type.type.name]).join(' '),
                         id: data.id,
-                        defense: data.stats[3].base_stat,
-                        attack: data.stats[4].base_stat,
+                        hp: data.stats[0].base_stat,
+                        attack: data.stats[1].base_stat,
+                        defense: data.stats[2].base_stat,
+                        special_attack: data.stats[3].base_stat,
+                        special_defense: data.stats[4].base_stat,
+                        speed: data.stats[5].base_stat,
+                        wheight: data.weight,
+                        height: data.height, 
                     })));
         return Promise.all(promises);
     });
 }
+
+
+  
     
     
     
