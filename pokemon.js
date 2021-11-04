@@ -21,7 +21,6 @@ const tipo = {
 function occ(userInput,item){
     for (let i = 0; i < item.name.length; i++) {
         if(userInput === item.name.substr(i,userInput.length)){
-            console.log(item.name + " => " + userInput);
             return item;
         }
     }

@@ -8,69 +8,8 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet" />
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script src="./pokemonComplete.js"></script>
     <script src="./pokemon.js"></script>
-    <script>
-        var queryString = window.location.search;
-        console.log(queryString);
-        var urlParams = new URLSearchParams(queryString);
-        var nome = urlParams.get('nome');
-        console.log("questa pagine deve visualizzare il pokemon " + nome);
-        
-        fetchPokemonComplete(nome).then((pokemonList) =>{
-            if(pokemonList == false){
-            }
-            displayPokemonComplete(pokemonList);
-        });
-
-        function fetchPokemonComplete(userInput) {
-            return fetch("https://pokeapi.co/api/v2/pokemon?offset=0&limit=900").then((response) => response.json())
-        .then((data) => {
-            const promises = data.results.filter((item) => occ(userInput, item))
-                .map((item) => fetch(`https://pokeapi.co/api/v2/pokemon/${item.name}`).then((response) => response.json())
-                    .then((data) => ({
-                        name: data.name,
-                        image: data.sprites['front_default'],
-                        type: data.types.map((type) => tipo[type.type.name]).join(' '),
-                        id: data.id,
-                        hp: data.stats[0].base_stat,
-                        attack: data.stats[1].base_stat,
-                        defense: data.stats[2].base_stat,
-                        special_attack: data.stats[3].base_stat,
-                        special_defense: data.stats[4].base_stat,
-                        speed: data.stats[5].base_stat,
-                        weight: data.weight,
-                        height: data.height,
-                    })));
-        return Promise.all(promises);
-    });
-    }   
-
-    
-function displayPokemonComplete(pokemon) {
-    const pokemonHTMLString = pokemon
-        .map((pokeman) => `
-        <li class="card">
-            <img class="card-image mx-auto d-block" src="${pokeman.image}"/>
-            <h2 class="card-title">${pokeman.id}. ${pokeman.name}</h2>
-        </li>
-        <li class="card">
-            <p class="card-subtitle">Tipo: ${pokeman.type}</p>
-            <p class="card-subtitle">Attacco: ${pokeman.attack} </p>
-            <p class="card-subtitle">Attacco Speciale: ${pokeman.special_attack} </p>
-            <p class="card-subtitle">Difesa: ${pokeman.defense} </p>
-            <p class="card-subtitle">Difesa Speciale: ${pokeman.special_defense} </p>
-            <p class="card-subtitle">Altezza: ${pokeman.height} </p>
-            <p class="card-subtitle">Peso: ${pokeman.weight} </p>
-            <p class="card-subtitle">Velocità: ${pokeman.speed} </p>
-        </li>
-    `
-        )
-        .join('');
-    
-    document.getElementById('pokemon').innerHTML = pokemonHTMLString;
-}
-
-    </script>
 
     <title></title>
 </head>

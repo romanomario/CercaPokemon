@@ -10,14 +10,12 @@ $('input').on('keyup', function(e) {
     clearTimeout(timeout)
     timeout = setTimeout(function() {
         e.preventDefault();
-        console.log("Siamo entrati con keyup");
         Ricerca();
     }, 500)
 })
     
     $("form").on("submit", function(e) {
         e.preventDefault();
-        console.log("Siamo entrati con submit");
         Ricerca();
     });
 });
@@ -36,7 +34,7 @@ function Ricerca(){
                 displayError(userInput);
                 displayBlock('error');
             }
-            displayPokemon(pokemonList);
+            displayPokemon(pokemonList,userInput);
         }).catch((err) => {
             console.log(err);
         }).finally(() => {
@@ -56,16 +54,13 @@ function displayError(msg) {
     document.getElementById('error').innerHTML = '<li class="card"><p class="card-subtitle"> Non è stato trovato nessun pokemon ' + msg + '</p></li>';
 }
 
-function displayPokemon(pokemon) {
+function displayPokemon(pokemon,userInput) {
     const pokemonHTMLString = pokemon
         .map((pokeman) => `
         <form id="${pokeman.id}" action="pokemon.html">
         <li class="card" onclick="scheda(this.id)" id="${pokeman.id}" >
             <img class="card-image mx-auto d-block" src="${pokeman.image}"/>
-            <h2 class="card-title">${pokeman.id}. ${pokeman.name}</h2>
-            <p class="card-subtitle">Tipo: ${pokeman.type}</p>
-            <p class="card-subtitle">Attacco: ${pokeman.attack} </p>
-            <p class="card-subtitle">Difesa: ${pokeman.defense} </p>
+            <h2 class="card-title">${pokeman.id}. ${occNome(pokeman.name,userInput)}</h2>
             <input type = "hidden" name = "nome" value = "${pokeman.name}" />
             </li>
         </form>
@@ -78,6 +73,44 @@ function displayPokemon(pokemon) {
 }
 
 function scheda(val){
-    console.log("è stato cliccato " + val);
     document.getElementById(val).submit();
+}
+
+function occNome(nome,userInput){
+    var x = [];
+    for (let i = 0, j = 0; i < nome.length ; i++) {
+        if(nome[i] == userInput[j]){
+            j ++;
+        }else{
+            j = 0;
+        }
+        if(j == userInput.length){
+            x.push(i-(j-1));
+            j == 0;
+        }
+    }
+    
+    var lenx = userInput.length;
+    var stringa = "<h2>",index = 0,j = 0;
+    while((index < nome.length) && ((j-1) <= userInput.length)){
+        lenx = userInput.length;    
+        if(index == x[j]){
+            stringa = stringa + "<span >" + nome[index];
+            lenx--;
+            while(lenx > 0){
+                index++;
+                stringa = stringa + nome[index];
+                lenx--;
+            }
+            if(lenx == 0){
+                stringa = stringa + "</span>";
+                j++;
+            }
+        }else{
+            stringa = stringa + nome[index];
+        }
+        index++;
+    }
+
+    return stringa;
 }

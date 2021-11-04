@@ -10,6 +10,12 @@
   font-style: normal;
   font-display: swap;
 }
+span{
+  color:white;
+  background-color: #FFC300 ;
+  border-radius: 5px;
+  opacity: 70%;
+}
 
 .searchBar {
   padding: 20px 0;
@@ -62,6 +68,12 @@ h1 {
   grid-gap: 20px;
   padding-inline-start: 0;
 }
+#pokemon {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-gap: 20px;
+  padding-inline-start: 0;
+}
 
 .card {
   list-style: none;
@@ -93,15 +105,14 @@ h1 {
   width: 200px;
 }
 
-.card2 {
+.cardo {
   list-style: none;
   padding: 40px;
   background-color: #f4f4f4;
   color: #222;
-  text-align: center;
 }
 
-.card2:hover {
+.cardo:hover {
   animation: bounce 0.5s linear;
 }
 
@@ -117,6 +128,11 @@ h1 {
   color: #666;
   font-weight: lighter;
 }
+.card-image2 {
+  height: 300px;
+  width: 300px;
+}
+
 
 @keyframes bounce {
   20% {
