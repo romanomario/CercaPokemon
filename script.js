@@ -22,7 +22,18 @@ $('input').on('keyup', function(e) {
 
 function Ricerca(){
     const userInput = document.getElementById('search').value.toLowerCase();
-        
+    var input = [];
+
+    for (let i = userInput.length,z = userInput.length; i != -2; i--) {
+        if((userInput[i] == " ") || (i < 0)){
+            input.push(userInput.substring(i+1,z));
+            z = i;
+        }
+    }
+
+    input = [...new Set(input)]
+
+    console.log("array di user input = " + input);
     if(userInput == ""){ 
         displayPokemon([]);
         displayNone('loading');
@@ -77,6 +88,8 @@ function scheda(val){
 }
 
 function occNome(nome,userInput){
+
+    //non funzion se ci sono due volte il primo carattere
     var x = [];
     for (let i = 0, j = 0; i < nome.length ; i++) {
         if(nome[i] == userInput[j]){
@@ -86,16 +99,16 @@ function occNome(nome,userInput){
         }
         if(j == userInput.length){
             x.push(i-(j-1));
-            j == 0;
+            j = 0;
         }
     }
-    
+
     var lenx = userInput.length;
     var stringa = "<h2>",index = 0,j = 0;
     while((index < nome.length) && ((j-1) <= userInput.length)){
         lenx = userInput.length;    
         if(index == x[j]){
-            stringa = stringa + "<span >" + nome[index];
+            stringa = stringa + "<span>" + nome[index];
             lenx--;
             while(lenx > 0){
                 index++;
