@@ -120,13 +120,9 @@ function occNome(nome,input){
         }
     }
 
-    console.log("Nome " + nome + " Occ " + x);
-
-
     x.sort();
 
     var stringa = "<h2>";
-
     for (let i = 0,j = 0; i < nome.length; i++) {
         if((i == x[j]) && j < x.length){
             stringa = stringa + "<span>" + nome[i] + "</span>";
@@ -135,7 +131,6 @@ function occNome(nome,input){
             stringa = stringa + nome[i];
         }
     }
-
     stringa = stringa + "</h2>";
     
     return stringa;

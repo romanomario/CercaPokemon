@@ -2,22 +2,26 @@
 var queryString = window.location.search;
 var urlParams = new URLSearchParams(queryString);
 var nome = urlParams.get('nome');
+console.log("Dobbiamo visualizzare il pokemon " + nome);
 
-fetchPokemonComplete(nome).then((pokemonList) =>{
-    if(pokemonList == false){
-    }
-    displayPokemonComplete(pokemonList);
+fetchPokemonComplete(nome).then((pokemon) =>{
+    console.log(pokemon);
+    displayPokemonComplete(pokemon);
 });
 
-function fetchPokemonComplete(userInput) {
-    return fetch("https://pokeapi.co/api/v2/pokemon?offset=0&limit=900").then((response) => response.json())
-.then((data) => {
-    const promises = data.results.filter((item) => occ(userInput, item))
-        .map((item) => fetch(`https://pokeapi.co/api/v2/pokemon/${item.name}`).then((response) => response.json())
+function occ(userInput,item){
+    for (let i = 0; i < item.name.length; i++) {
+        if(userInput === item.name.substr(i,userInput.length)){
+            return item;
+        }
+    }
+}
+
+function fetchPokemonComplete(nome) {
+    return fetch(`https://pokeapi.co/api/v2/pokemon/${nome}`).then((response) => response.json())
             .then((data) => ({
                 name: data.name,
                 image: data.sprites['front_default'],
-                type: data.types.map((type) => tipo[type.type.name]).join(' '),
                 id: data.id,
                 hp: data.stats[0].base_stat,
                 attack: data.stats[1].base_stat,
@@ -27,15 +31,12 @@ function fetchPokemonComplete(userInput) {
                 speed: data.stats[5].base_stat,
                 weight: data.weight,
                 height: data.height,
-            })));
-return Promise.all(promises);
-});
+            }));
 }   
 
 
-function displayPokemonComplete(pokemon) {
-const pokemonHTMLString = pokemon
-.map((pokeman) => `
+function displayPokemonComplete(pokeman) {
+const pokemonHTMLString =`
 <li class="cardo">
     <img class="card-image2 mx-auto d-block" src="${pokeman.image}"/>
     <h2 class="card-title">${pokeman.id}. ${pokeman.name}</h2>
@@ -51,10 +52,8 @@ const pokemonHTMLString = pokemon
     <p class="card-tilte">Difesa:<p class="card-subtitle">${pokeman.defense}</p></p>
     <p class="card-tilte">Difesa Speciale:<p class="card-subtitle">${pokeman.special_defense}</p></p>
     <p class="card-tilte">Velocità:<p class="card-subtitle">${pokeman.speed}</p></p>
-</li>
-`
-)
-.join('');
+</li>`;
 
 document.getElementById('pokemon').innerHTML = pokemonHTMLString;
 }
+

@@ -29,7 +29,7 @@ function occ(userInput,item){
     }
     if(punteggio){
         item.punteggio = punteggio;
-        //console.log("Nome= " + item.name + " Punteggio= " + item.punteggio);
+        console.log("Nome= " + item.name + " Punteggio= " + item.punteggio);
         return item;
     }
 }
