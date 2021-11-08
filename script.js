@@ -33,24 +33,26 @@ function Ricerca(){
 
     input = [...new Set(input)]
 
-    console.log("array di user input = " + input);
-    if(userInput == ""){ 
+    console.log(input);
+    
+    if(input == ""){ 
         displayPokemon([]);
         displayNone('loading');
         displayNone('error');
+        console.log("Non è stata inserita nessuna stringa");
     }else{
         displayNone('error');
-        fetchPokemon(userInput).then((pokemonList) =>{
+        fetchPokemon(input).then((pokemonList) =>{
             if(pokemonList == false){
                 displayError(userInput);
                 displayBlock('error');
             }
-            displayPokemon(pokemonList,userInput);
+            displayPokemon(pokemonList,input);
         }).catch((err) => {
             console.log(err);
         }).finally(() => {
             displayNone('loading');
-        });
+        });   
     }
 }
 
@@ -65,13 +67,24 @@ function displayError(msg) {
     document.getElementById('error').innerHTML = '<li class="card"><p class="card-subtitle"> Non è stato trovato nessun pokemon ' + msg + '</p></li>';
 }
 
-function displayPokemon(pokemon,userInput) {
+function mySorter(a, b){
+    var vA = a.punteggio;
+    var vB = b.punteggio;
+    if(vA > vB) return -1;
+    if(vA < vB) return 1;
+    return 0;
+}
+
+function displayPokemon(pokemon,input) {
+
+    pokemon.sort(mySorter);
+
     const pokemonHTMLString = pokemon
         .map((pokeman) => `
         <form id="${pokeman.id}" action="pokemon.html">
         <li class="card" onclick="scheda(this.id)" id="${pokeman.id}" >
-            <img class="card-image mx-auto d-block" src="${pokeman.image}"/>
-            <h2 class="card-title">${pokeman.id}. ${occNome(pokeman.name,userInput)}</h2>
+            <img class="card-image mx-auto d-block" src="${pokeman.image} "/>
+            <h2 class="card-title">${pokeman.id}. ${occNome(pokeman.name,input)}</h2>
             <input type = "hidden" name = "nome" value = "${pokeman.name}" />
             </li>
         </form>
@@ -87,43 +100,43 @@ function scheda(val){
     document.getElementById(val).submit();
 }
 
-function occNome(nome,userInput){
+function occNome(nome,input){
 
-    //non funzion se ci sono due volte il primo carattere
     var x = [];
-    for (let i = 0, j = 0; i < nome.length ; i++) {
-        if(nome[i] == userInput[j]){
-            j ++;
-        }else{
-            j = 0;
-        }
-        if(j == userInput.length){
-            x.push(i-(j-1));
-            j = 0;
+    
+    for (let p = 0; p < input.length; p++) {
+        for (let i = 0, j = 0; i < nome.length; i++) {
+            if(nome[i] == input[p][j]){
+                j ++;
+            }else{
+                j = 0;
+            }
+            if(j == input[p].length){
+                for (let z = 0; z < input[p].length; z++) {
+                    x.push(z+i-(j-1));
+                }
+                j = 0;
+            }
         }
     }
 
-    var lenx = userInput.length;
-    var stringa = "<h2>",index = 0,j = 0;
-    while((index < nome.length) && ((j-1) <= userInput.length)){
-        lenx = userInput.length;    
-        if(index == x[j]){
-            stringa = stringa + "<span>" + nome[index];
-            lenx--;
-            while(lenx > 0){
-                index++;
-                stringa = stringa + nome[index];
-                lenx--;
-            }
-            if(lenx == 0){
-                stringa = stringa + "</span>";
-                j++;
-            }
+    console.log("Nome " + nome + " Occ " + x);
+
+
+    x.sort();
+
+    var stringa = "<h2>";
+
+    for (let i = 0,j = 0; i < nome.length; i++) {
+        if((i == x[j]) && j < x.length){
+            stringa = stringa + "<span>" + nome[i] + "</span>";
+            j++;
         }else{
-            stringa = stringa + nome[index];
+            stringa = stringa + nome[i];
         }
-        index++;
     }
 
+    stringa = stringa + "</h2>";
+    
     return stringa;
 }

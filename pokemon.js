@@ -18,11 +18,19 @@ const tipo = {
     fairy: 'Folletto',
 };
 
-function occ(userInput,item){
-    for (let i = 0; i < item.name.length; i++) {
-        if(userInput === item.name.substr(i,userInput.length)){
-            return item;
+function occ(userInput,item){ 
+    var punteggio = 0;
+    for (let j = 0; j < userInput.length; j++) {
+        for (let i = 0; i < item.name.length; i++) {
+            if(userInput[j] === item.name.substr(i,userInput[j].length)){
+                punteggio++;
+            }
         }
+    }
+    if(punteggio){
+        item.punteggio = punteggio;
+        //console.log("Nome= " + item.name + " Punteggio= " + item.punteggio);
+        return item;
     }
 }
 
@@ -43,7 +51,8 @@ function fetchPokemon(userInput) {
                         special_defense: data.stats[4].base_stat,
                         speed: data.stats[5].base_stat,
                         weight: data.weight,
-                        height: data.height, 
+                        height: data.height,
+                        punteggio: item.punteggio,
                     })));
         return Promise.all(promises);
     });
