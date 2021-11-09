@@ -5,17 +5,8 @@ var nome = urlParams.get('nome');
 console.log("Dobbiamo visualizzare il pokemon " + nome);
 
 fetchPokemonComplete(nome).then((pokemon) =>{
-    console.log(pokemon);
     displayPokemonComplete(pokemon);
 });
-
-function occ(userInput,item){
-    for (let i = 0; i < item.name.length; i++) {
-        if(userInput === item.name.substr(i,userInput.length)){
-            return item;
-        }
-    }
-}
 
 function fetchPokemonComplete(nome) {
     return fetch(`https://pokeapi.co/api/v2/pokemon/${nome}`).then((response) => response.json())

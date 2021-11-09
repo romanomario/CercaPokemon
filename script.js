@@ -122,11 +122,21 @@ function occNome(nome,input){
 
     x.sort();
 
+    console.log("Nome = " + nome + " occ " + x);
+
     var stringa = "<h2>";
     for (let i = 0,j = 0; i < nome.length; i++) {
-        if((i == x[j]) && j < x.length){
-            stringa = stringa + "<span>" + nome[i] + "</span>";
-            j++;
+        if(i == x[j]){
+            stringa = stringa + "<span>";
+            while(i == x[j]){
+                stringa = stringa + nome[i];
+                i++;
+                j++;
+            }
+            stringa = stringa + "</span>";
+            if((i !== x[j]) && (i < nome.length)){
+                stringa = stringa + nome[i];
+            }
         }else{
             stringa = stringa + nome[i];
         }
