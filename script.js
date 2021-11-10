@@ -122,6 +122,8 @@ function occNome(nome,input){
 
     x.sort();
 
+    nome = capitalize(nome);
+
     console.log("Nome = " + nome + " occ " + x);
 
     var stringa = "<h2>";
@@ -144,4 +146,8 @@ function occNome(nome,input){
     stringa = stringa + "</h2>";
     
     return stringa;
+}
+
+function capitalize(sentence){
+    return sentence && sentence[0].toUpperCase() + sentence.slice(1);
 }

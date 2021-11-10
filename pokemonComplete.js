@@ -34,8 +34,8 @@ const pokemonHTMLString =`
 </li>
 <li class="cardo">
     <p class="card-tile">Tipo: <p class="card-subtitle">${pokeman.type}</p></p>
-    <p class="card-tile">Altezza: <p class="card-subtitle">${pokeman.height}</p></p>
-    <p class="card-tile">Peso: <p class="card-subtitle">${pokeman.weight}</p></p>
+    <p class="card-tile">Altezza: <p class="card-subtitle">${pokeman.height} cm</p></p>
+    <p class="card-tile">Peso: <p class="card-subtitle">${pokeman.weight} kg</p></p>
 </li>
 <li class="cardo">
     <p class="card-tilte">Attacco:<p class="card-subtitle">${pokeman.attack}</p></p>
