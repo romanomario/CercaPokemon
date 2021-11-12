@@ -165,3 +165,75 @@ h1 {
 }
 
 li { cursor: pointer; }
+
+.normale {
+  background-color: #a8a878;
+}
+
+.erba {
+  background-color: #78c850;
+}
+
+.terra {
+  background-color: #e0c068;
+}
+
+.lotta {
+  background-color: #c03028;
+}
+
+.roccia {
+  background-color: #b8a038;
+}
+
+.acciaio {
+  background-color: #b8b8d0;
+}
+
+.fuoco {
+  background-color: #f08030;
+}
+
+.elettro {
+  background-color: #f8d030;
+}
+
+.volante {
+  background-color: #a890f0;
+}
+
+.psico {
+  background-color: #f85888;
+}
+
+.insetto {
+  background-color: #a8b820;
+}
+
+.drago {
+  background-color: #7038f8;
+}
+
+.acqua{
+ background-color: #6890f0; 
+}
+
+.ghiaccio {
+  background-color: #98d8d8;
+}
+
+.veleno {
+  background-color: #a040a0;
+}
+
+.ombra {
+  background-color: #705848;
+}
+
+.fantasma {
+  background-color: #705898;
+}
+
+.folletto {
+  background-color: #ffaec9;
+}

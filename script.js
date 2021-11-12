@@ -23,6 +23,7 @@ $('input').on('keyup', function(e) {
 function Ricerca(){
     const userInput = document.getElementById('search').value.toLowerCase();
     var input = [];
+    displayNone('pokemon');
 
     for (let i = userInput.length,z = userInput.length; i != -2; i--) {
         if((userInput[i] == " ") || (i < 0)){
@@ -75,29 +76,12 @@ function mySorter(a, b){
     return 0;
 }
 
-function displayPokemon(pokemon,input) {
-
-    pokemon.sort(mySorter);
-
-    const pokemonHTMLString = pokemon
-        .map((pokeman) => `
-        <form id="${pokeman.id}" action="pokemon.html">
-        <li class="card" onclick="scheda(this.id)" id="${pokeman.id}" >
-            <img class="card-image mx-auto d-block" src="${pokeman.image} "/>
-            <h2 class="card-title">${pokeman.id}. ${occNome(pokeman.name,input)}</h2>
-            <input type = "hidden" name = "nome" value = "${pokeman.name}" />
-            </li>
-        </form>
-    `
-        )
-        .join('');
-    
-    
-    document.getElementById('pokedex').innerHTML = pokemonHTMLString;
-}
-
 function scheda(val){
-    document.getElementById(val).submit();
+    displayBlock('pokemon');
+    fetchPokemonComplete(val).then((pokemon) =>{
+        displayPokemon([]);
+        displayPokemonComplete(pokemon);
+    });
 }
 
 function occNome(nome,input){
@@ -151,3 +135,53 @@ function occNome(nome,input){
 function capitalize(sentence){
     return sentence && sentence[0].toUpperCase() + sentence.slice(1);
 }
+
+function displayPokemon(pokemon,input) {
+
+    pokemon.sort(mySorter);
+
+    const pokemonHTMLString = pokemon
+        .map((pokeman) => `
+        <li class="card" onclick="scheda(this.id)" id="${pokeman.id}" >
+            <img class="card-image mx-auto d-block" src="${pokeman.image} "/>
+            <h2 class="card-title">${pokeman.id}. ${occNome(pokeman.name,input)}</h2>
+        </li>
+    `
+        )
+        .join('');
+    
+    
+    document.getElementById('pokedex').innerHTML = pokemonHTMLString;
+}
+
+function comeback(){
+    displayNone('pokemon');
+    displayPokemon()
+    //rimettere il focus su input e portare vecchio input
+}
+
+function displayPokemonComplete(pokeman) {
+    const pokemonHTMLString =`
+    <button onclick="comeback()">Click me</button>
+    <li class="cardo">
+        <img class="card-image2 mx-auto d-block" src="${pokeman.image}"/>
+        <h2 class="card-title">${pokeman.id}. ${pokeman.name}</h2>
+    </li>
+    <li class="cardo">
+        <p class="card-tile">Tipo: <p class="card-subtitle">${pokeman.type}</p></p>
+        <p class="card-tile">Altezza: <p class="card-subtitle">${pokeman.height} cm</p></p>
+        <p class="card-tile">Peso: <p class="card-subtitle">${pokeman.weight} kg</p></p>
+    </li>
+    <li class="cardo">
+        <p class="card-tilte">Attacco:<p class="card-subtitle">${pokeman.attack}</p></p>
+        <p class="card-tilte">Attacco Speciale:<p class="card-subtitle">${pokeman.special_attack}</p></p>
+        <p class="card-tilte">Difesa:<p class="card-subtitle">${pokeman.defense}</p></p>
+        <p class="card-tilte">Difesa Speciale:<p class="card-subtitle">${pokeman.special_defense}</p></p>
+        <p class="card-tilte">Velocità:<p class="card-subtitle">${pokeman.speed}</p></p>
+    </li>`;
+    
+    document.getElementById('pokemon').innerHTML = pokemonHTMLString;
+}
+
+
+    
