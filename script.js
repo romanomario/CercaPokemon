@@ -23,16 +23,14 @@ $('input').on('keyup', function(e) {
 function Ricerca(){
     const userInput = document.getElementById('search').value.toLowerCase();
     var input = [];
-    displayNone('pokemon');
+    $('#1').addClass('d-none');
+    $('#2').removeClass('d-none');
 
-    for (let i = userInput.length,z = userInput.length; i != -2; i--) {
-        if((userInput[i] == " ") || (i < 0)){
-            input.push(userInput.substring(i+1,z));
-            z = i;
-        }
-    }
+    userInput.trim();
 
-    input = [...new Set(input)]
+    input = userInput.trim().split(' ');
+
+    input = [...new Set(input)];
 
     console.log(input);
     
@@ -77,12 +75,19 @@ function mySorter(a, b){
 }
 
 function scheda(val){
-    displayBlock('pokemon');
+    $('#2').addClass('d-none');
+    $('#1').removeClass('d-none');
     fetchPokemonComplete(val).then((pokemon) =>{
-        displayPokemon([]);
         displayPokemonComplete(pokemon);
     });
 }
+
+function comeback(){
+    $('#2').removeClass('d-none');
+    $('#1').addClass('d-none');
+    document.getElementById('#search').focus();
+}
+
 
 function occNome(nome,input){
 
@@ -108,12 +113,12 @@ function occNome(nome,input){
 
     nome = capitalize(nome);
 
-    console.log("Nome = " + nome + " occ " + x);
+    //console.log("Nome = " + nome + " occ " + x);
 
     var stringa = "<h2>";
     for (let i = 0,j = 0; i < nome.length; i++) {
         if(i == x[j]){
-            stringa = stringa + "<span>";
+            stringa = stringa + '<span id="ev">';
             while(i == x[j]){
                 stringa = stringa + nome[i];
                 i++;
@@ -154,33 +159,52 @@ function displayPokemon(pokemon,input) {
     document.getElementById('pokedex').innerHTML = pokemonHTMLString;
 }
 
-function comeback(){
-    displayNone('pokemon');
-    displayPokemon()
-    //rimettere il focus su input e portare vecchio input
-}
-
 function displayPokemonComplete(pokeman) {
+
+
+
     const pokemonHTMLString =`
-    <button onclick="comeback()">Click me</button>
-    <li class="cardo">
-        <img class="card-image2 mx-auto d-block" src="${pokeman.image}"/>
+    <li class="cardo2">
+        <img class="card-image2 mx-auto d-block " id="image1" onclick="change()" src="${pokeman.image}"/>
+        <img class="card-image2 mx-auto d-block d-none" id="image2" onclick="change2()" src="${pokeman.image2}"/>
         <h2 class="card-title">${pokeman.id}. ${pokeman.name}</h2>
     </li>
-    <li class="cardo">
-        <p class="card-tile">Tipo: <p class="card-subtitle">${pokeman.type}</p></p>
-        <p class="card-tile">Altezza: <p class="card-subtitle">${pokeman.height} cm</p></p>
-        <p class="card-tile">Peso: <p class="card-subtitle">${pokeman.weight} kg</p></p>
+    <li class="cardo2">
+        <p>Tipo: <p class="card-subtitle">${pokemonType(pokeman.type)}</p></p>
+        <p>Altezza: <p class="card-subtitle">${pokeman.height} cm</p></p>
+        <p>Peso: <p class="card-subtitle">${pokeman.weight} kg</p></p>
     </li>
-    <li class="cardo">
-        <p class="card-tilte">Attacco:<p class="card-subtitle">${pokeman.attack}</p></p>
-        <p class="card-tilte">Attacco Speciale:<p class="card-subtitle">${pokeman.special_attack}</p></p>
-        <p class="card-tilte">Difesa:<p class="card-subtitle">${pokeman.defense}</p></p>
-        <p class="card-tilte">Difesa Speciale:<p class="card-subtitle">${pokeman.special_defense}</p></p>
-        <p class="card-tilte">Velocità:<p class="card-subtitle">${pokeman.speed}</p></p>
+    <li class="cardo2">
+        <p>Attacco:<p class="card-subtitle">${pokeman.attack}</p></p>
+        <p>Attacco Speciale:<p class="card-subtitle">${pokeman.special_attack}</p></p>
+        <p>Difesa:<p class="card-subtitle">${pokeman.defense}</p></p>
+        <p>Difesa Speciale:<p class="card-subtitle">${pokeman.special_defense}</p></p>
+        <p>Velocità:<p class="card-subtitle">${pokeman.speed}</p></p>
     </li>`;
     
     document.getElementById('pokemon').innerHTML = pokemonHTMLString;
+}
+
+function pokemonType(types) {
+    var a=[],s=[];
+    a = types.split(' ');
+
+    a.forEach(element => {
+      s = s + '<span class="pokeType poke-info ' + element + '">' + element + '</span> ';  
+    });
+
+    console.log(s);
+
+    return s;
+}
+
+function change(){
+    $('#image2').removeClass('d-none');
+    $('#image1').addClass('d-none');
+}
+function change2(){
+    $('#image1').removeClass('d-none');
+    $('#image2').addClass('d-none');
 }
 
 

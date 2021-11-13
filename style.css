@@ -10,7 +10,7 @@
   font-style: normal;
   font-display: swap;
 }
-span{
+#ev{
   color:white;
   background-color: #FFC300 ;
   border-radius: 5px;
@@ -124,6 +124,14 @@ h1 {
   color: #222;
 }
 
+
+.cardo2 {
+  list-style: none;
+  padding: 40px;
+  background-color: #f4f4f4;
+  color: #222;
+}
+
 .cardo:hover {
   animation: bounce 0.5s linear;
 }
@@ -166,74 +174,88 @@ h1 {
 
 li { cursor: pointer; }
 
-.normale {
+.Normale {
   background-color: #a8a878;
 }
 
-.erba {
+.Erba {
   background-color: #78c850;
 }
 
-.terra {
+.Terra {
   background-color: #e0c068;
 }
 
-.lotta {
+.Lotta {
   background-color: #c03028;
 }
 
-.roccia {
+.Roccia {
   background-color: #b8a038;
 }
 
-.acciaio {
+.Acciaio {
   background-color: #b8b8d0;
 }
 
-.fuoco {
+.Fuoco {
   background-color: #f08030;
 }
 
-.elettro {
+.Elettro {
   background-color: #f8d030;
 }
 
-.volante {
+.Volante {
   background-color: #a890f0;
 }
 
-.psico {
+.Psico {
   background-color: #f85888;
 }
 
-.insetto {
+.Insetto {
   background-color: #a8b820;
 }
 
-.drago {
+.Drago {
   background-color: #7038f8;
 }
 
-.acqua{
+.Acqua{
  background-color: #6890f0; 
 }
 
-.ghiaccio {
+.Ghiaccio {
   background-color: #98d8d8;
 }
 
-.veleno {
+.Veleno {
   background-color: #a040a0;
 }
 
-.ombra {
+.Ombra {
   background-color: #705848;
 }
 
-.fantasma {
+.Fantasma {
   background-color: #705898;
 }
 
-.folletto {
+.Folletto {
   background-color: #ffaec9;
+}
+
+.poke-info {
+  display: inline-block;
+  margin-right: 2px;
+}
+
+.pokeType {
+  padding: 5px;
+  color: #fff;
+  border-radius: 5px;
+  text-transform: capitalize;
+  margin-left: 5px;
+  font-weight: 700;
 }

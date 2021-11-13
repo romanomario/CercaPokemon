@@ -43,14 +43,6 @@ function fetchPokemon(userInput) {
                         image: data.sprites['front_default'],
                         type: data.types.map((type) => tipo[type.type.name]).join(' '),
                         id: data.id,
-                        hp: data.stats[0].base_stat,
-                        attack: data.stats[1].base_stat,
-                        defense: data.stats[2].base_stat,
-                        special_attack: data.stats[3].base_stat,
-                        special_defense: data.stats[4].base_stat,
-                        speed: data.stats[5].base_stat,
-                        weight: data.weight,
-                        height: data.height,
                         punteggio: item.punteggio,
                     })));
         return Promise.all(promises);
@@ -71,57 +63,9 @@ function fetchPokemonComplete(nome) {
                 special_defense: data.stats[4].base_stat,
                 speed: data.stats[5].base_stat,
                 weight: data.weight,
-                height: data.height,
+                height: data.height
             }));
 }   
-
-/** 
-function RicercaFetch(userInput){
-            
-    const url = "https://pokeapi.co/api/v2/pokemon/" + userInput; 
-    fetch(url).then(response => {
-        if (response.ok) {
-            document.getElementById('errorOut').style.display = "none";
-            
-            response.json().then(data => {
-                let name = data.forms[0].name,
-                pokeImgFront = data.sprites.front_default,
-                pokeImgBack = data.sprites.back_default,
-                frontImg = true,
-                speed = "<span class='stat'>Velocità: </span>" + data.stats[0].base_stat,
-                def = "<span class='stat'>Difesa: </span>" + data.stats[3].base_stat,
-                atk = "<span class='stat'>Attacco: </span>" + data.stats[4].base_stat,
-                hp = "<span class='stat'>PV: </span>" + data.stats[5].base_stat,
-                id = "#" + data.id,
-                types = [];
-
-            for (let i = 0; i < data.types.length; i++) {
-                types.push(type[data.types[i].type.name]);
-            }
-
-            function pokemonType(types) {
-                $("#types").html("");
-                for (let i = 0; i < types.length; i++) {
-                    $("#types").append(
-                        "<div class='pokeType poke-info " +
-                        types[i] +
-                        "'>" +
-                        types[i] +
-                        " </div>"
-                    );
-                }
-            }
-
-            $(".changeBtn").click(function() {
-                if (frontImg == true) {
-                    frontImg = false;
-                    $("#pokeImage").attr("src", pokeImgBack);
-                } else if (frontImg == false) {
-                    frontImg = true;
-                    $("#pokeImage").attr("src", pokeImgFront);
-                }
-            });
-*/
 
   
     
