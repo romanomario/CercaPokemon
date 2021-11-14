@@ -26,8 +26,8 @@ $('input').on('keyup', function(e) {
 });
 
 function Ricerca(){    
-    $('#1').addClass('d-none');
-    $('#2').removeClass('d-none');
+    $('#pokemon').addClass('d-none');
+    $('#pokedex').removeClass('d-none');
 
     const userInput = document.getElementById('search').value.toLowerCase();
     var input = correctInput(userInput);
@@ -107,8 +107,8 @@ function addClass(id){
 }
 
 function scheda(val){
-    addClass(2);
-    removeClass(1);
+    addClass('pokedex');
+    removeClass('pokemon');
     fetchPokemonComplete(val).then((pokemon) =>{
         displayPokemonComplete(pokemon);
     });
@@ -116,15 +116,16 @@ function scheda(val){
 
 function comeback(){
     console.log("Stiamo tornando indietro");
-    removeClass(2);
-    addClass(1);
+    removeClass('pokedex');
+    addClass('pokemon');
     displayNone("button");
     document.getElementById('#search').focus();
 }
 
+// Precondition: inputs cannot contain "".
 function occNome(nome,input){
 
-    var x = [];
+    const x = [];
     
     /*
     for (let p = 0; p < input.length; p++) {
@@ -146,68 +147,82 @@ function occNome(nome,input){
     //giriamo tutti gli input a disposizione
     for (let p = 0; p < input.length; p++) {
         //giriamo tutto il nome fornito
-        for (let i = 0, j = 0; i < nome.length; i++) {
-            if(nome[i] == input[p][j]){
-                if(input[p].length == 1){
-                    x.push(i);
-                }
-                //test
-                else if(input[p].length > 1){
-                    let z;
+        for (let i = 0; i < nome.length; i++) {
+            let j = 0;
+            const word = input[p];
+            if (nome[i] === word[j]) {
+                if(word.length === 1){
+                    if (!x.includes(i)) {
+                        // if (nome === 'bulbasaur') { console.log('adding single', i); }
+                        x.push(i);
+                    }
+                } else {
                     j++;
                     i++;
-                    for (z = 1 ;((z < input[p].length) && (j > 0)); z++,i++) {
-                        if(nome[i] == input[p][z]){
-                            j++;
-                        }else{
-                            j = 0;
-                        }
+                    // if (nome === 'bulbasaur') { console.log('_', i, j); }
+                    let z = 1;
+                    while (z < word.length && nome[i++] === word[z]) {
+                        j++;
+                        z++;
                     }
-                    i = i - (z);
-                    if( j == input[p].length){
+                    i -= z;
+                    if (z === word.length) {
                         //i posizione della prima occorrenza
-                        //dobbiamo pushare in x, tutti i fino a input[p].lenght
-                        for ( z = 0; z < input[p].length; z++) {
-                            x.push(i);
+                        //dobbiamo pushare in x, tutti i fino a word.lenght
+                        for (z = 0; z < word.length; z++) {
+                            if (!x.includes(i)) {
+                                // if (nome === 'bulbasaur') { console.log('adding box', i); }
+                                x.push(i);
+                            }
                             i++;
                         }
+                    } else {
+                        // if (nome === 'bulbasaur') { console.log('sss'); }
                     }
-                    j = 0;
                 }
             }
         }
     }
 
-    x.sort();
+    x.sort((a, b) => a - b);
 
+    // if (nome === 'bulbasaur') { console.log(x); }
     nome = capitalize(nome);
 
-    x = [...new Set(x)];
-
-    var stringa = "<h2>";
-    for (let i = 0,j = 0; i < nome.length; i++) {
-        if(i == x[j]){
-            stringa = stringa + '<span id="ev">';
-            while(i == x[j]){
-                stringa = stringa + nome[i];
-                i++;
-                j++;
-            }
-            stringa = stringa + "</span>";
-            if((i !== x[j]) && (i < nome.length)){
-                stringa = stringa + nome[i];
-            }
-        }else{
-            stringa = stringa + nome[i];
+    let stringa = "<h2>";
+    let i = 0, j = 0;
+    let inBox = false;
+    while (i < nome.length) {
+        if (!inBox && i === x[j]) {
+            inBox = true;
+            stringa += '<span id="ev">';
+            // if (nome === 'Bulbasaur') { console.log('blocco aperto su', x[j]); }
+        }
+        stringa += nome[i++];
+        if (inBox) {
+            j++;
+        }
+        // if (nome === 'Bulbasaur') { console.log('scritto "', nome[i - 1], '": ', i, j, x[j]); }
+        if (inBox && (i >= nome.length || i !== x[j])) {
+            inBox = false;
+            stringa += "</span>";
+            // if (nome === 'Bulbasaur') { console.log('blocco chiuso su', x[j - 1]); }
         }
     }
-    stringa = stringa + "</h2>";
-    
+    stringa += "</h2>";
+
     return stringa;
 }
 
 function capitalize(sentence){
-    return sentence && sentence[0].toUpperCase() + sentence.slice(1);
+    /*
+    Equivalente
+    if (sentence) {
+        return sentence[0].toUpperCase() + sentence.slice(1).toLowerCase();
+    }
+    return sentence;
+    */
+    return sentence && (sentence[0].toUpperCase() + sentence.slice(1).toLowerCase());
 }
 
 function displayPokemon(pokemon,input) {
@@ -233,8 +248,12 @@ function displayPokemonComplete(pokeman) {
     displayBlock("button");
     const pokemonHTMLString =`
     <li class="cardo2">
-        <img class="card-image2 mx-auto d-block " id="image1" onclick="change()" src="${pokeman.image}"/>
-        <img class="card-image2 mx-auto d-block d-none" id="image2" onclick="change2()" src="${pokeman.image2}"/>
+        <img class="card-image2 mx-auto" id="pokemon_showcase_image"
+             onclick="alternatePokemonShowcaseImage()"
+             src="${pokeman.image}"
+             meta-front-src="${pokeman.image}"
+             meta-back-src="${pokeman.image2}"
+        />
         <h2 class="card-title">${pokeman.id}. ${pokeman.name}</h2>
     </li>
     <li class="cardo2">
@@ -325,14 +344,14 @@ function pokemonType(types) {
     return s;
 }
 
-function change(){
-    $('#image2').removeClass('d-none');
-    $('#image1').addClass('d-none');
+function alternatePokemonShowcaseImage(){
+    const pokemonShowcaseImage = $('#pokemon_showcase_image');
+    const src = pokemonShowcaseImage.attr('src');
+    const frontSrc = pokemonShowcaseImage.attr('meta-front-src');
+    const backSrc = pokemonShowcaseImage.attr('meta-back-src');
+    if (src === frontSrc) {
+        pokemonShowcaseImage.attr('src', backSrc);
+    } else {
+        pokemonShowcaseImage.attr('src', frontSrc);
+    }
 }
-function change2(){
-    $('#image1').removeClass('d-none');
-    $('#image2').addClass('d-none');
-}
-
-
-    
