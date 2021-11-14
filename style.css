@@ -259,3 +259,13 @@ li { cursor: pointer; }
   margin-left: 5px;
   font-weight: 700;
 }
+
+.button {
+  background-color: #fff;
+  color: #000;
+  display: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  border: none;
+}

@@ -1,8 +1,11 @@
 $(document).ready(function() {
     displayNone('loading');
 
+    //metaKey altKey ctrlKey
     $("input").keydown(function(e) {
-        displayBlock('loading');
+        if((!e.shiftKey) && (!e.metaKey) && (!e.altKey) && (e.crtlKey)){
+            displayBlock('loading');
+        }
     });
     
     var timeout = null
@@ -10,7 +13,9 @@ $('input').on('keyup', function(e) {
     clearTimeout(timeout)
     timeout = setTimeout(function() {
         e.preventDefault();
-        Ricerca();
+        if((!e.shiftKey) && (!e.metaKey) && (!e.altKey) && (e.crtlKey)){
+            Ricerca();
+        }
     }, 500)
 })
     
@@ -20,19 +25,12 @@ $('input').on('keyup', function(e) {
     });
 });
 
-function Ricerca(){
-    const userInput = document.getElementById('search').value.toLowerCase();
-    var input = [];
+function Ricerca(){    
     $('#1').addClass('d-none');
     $('#2').removeClass('d-none');
 
-    userInput.trim();
-
-    input = userInput.trim().split(' ');
-
-    input = [...new Set(input)];
-
-    console.log(input);
+    const userInput = document.getElementById('search').value.toLowerCase();
+    var input = correctInput(userInput);
     
     if(input == ""){ 
         displayPokemon([]);
@@ -55,6 +53,30 @@ function Ricerca(){
     }
 }
 
+/**
+ * 
+ * @param {*} userInput 
+ * Canecellare tutti gli spazi presenti nell'input
+ * Cancellare tutti gli elementi non unici
+ */
+function correctInput(userInput){
+    var input = [];
+
+    userInput.trim();//elimina spazi iniziali e finali
+
+    userInput = userInput.split(' ');
+
+    userInput.forEach(element => {
+        if(element.trim()){
+            input.push(element.trim());
+        }
+    });
+
+    input = [...new Set(input)];
+
+    return input;
+}
+
 function displayNone(id){
     document.getElementById(id).style.display = 'none';
 }
@@ -74,25 +96,37 @@ function mySorter(a, b){
     return 0;
 }
 
+function removeClass(id){
+    const s = "#" + id;
+    $(s).removeClass('d-none');
+}
+
+function addClass(id){
+    const s = "#" + id;
+    $(s).addClass('d-none');
+}
+
 function scheda(val){
-    $('#2').addClass('d-none');
-    $('#1').removeClass('d-none');
+    addClass(2);
+    removeClass(1);
     fetchPokemonComplete(val).then((pokemon) =>{
         displayPokemonComplete(pokemon);
     });
 }
 
 function comeback(){
-    $('#2').removeClass('d-none');
-    $('#1').addClass('d-none');
+    console.log("Stiamo tornando indietro");
+    removeClass(2);
+    addClass(1);
+    displayNone("button");
     document.getElementById('#search').focus();
 }
-
 
 function occNome(nome,input){
 
     var x = [];
     
+    /*
     for (let p = 0; p < input.length; p++) {
         for (let i = 0, j = 0; i < nome.length; i++) {
             if(nome[i] == input[p][j]){
@@ -107,13 +141,48 @@ function occNome(nome,input){
                 j = 0;
             }
         }
+    }*/
+
+    //giriamo tutti gli input a disposizione
+    for (let p = 0; p < input.length; p++) {
+        //giriamo tutto il nome fornito
+        for (let i = 0, j = 0; i < nome.length; i++) {
+            if(nome[i] == input[p][j]){
+                if(input[p].length == 1){
+                    x.push(i);
+                }
+                //test
+                else if(input[p].length > 1){
+                    let z;
+                    j++;
+                    i++;
+                    for (z = 1 ;((z < input[p].length) && (j > 0)); z++,i++) {
+                        if(nome[i] == input[p][z]){
+                            j++;
+                        }else{
+                            j = 0;
+                        }
+                    }
+                    i = i - (z);
+                    if( j == input[p].length){
+                        //i posizione della prima occorrenza
+                        //dobbiamo pushare in x, tutti i fino a input[p].lenght
+                        for ( z = 0; z < input[p].length; z++) {
+                            x.push(i);
+                            i++;
+                        }
+                    }
+                    j = 0;
+                }
+            }
+        }
     }
 
     x.sort();
 
     nome = capitalize(nome);
 
-    //console.log("Nome = " + nome + " occ " + x);
+    x = [...new Set(x)];
 
     var stringa = "<h2>";
     for (let i = 0,j = 0; i < nome.length; i++) {
@@ -161,8 +230,7 @@ function displayPokemon(pokemon,input) {
 
 function displayPokemonComplete(pokeman) {
 
-
-
+    displayBlock("button");
     const pokemonHTMLString =`
     <li class="cardo2">
         <img class="card-image2 mx-auto d-block " id="image1" onclick="change()" src="${pokeman.image}"/>
@@ -170,16 +238,75 @@ function displayPokemonComplete(pokeman) {
         <h2 class="card-title">${pokeman.id}. ${pokeman.name}</h2>
     </li>
     <li class="cardo2">
-        <p>Tipo: <p class="card-subtitle">${pokemonType(pokeman.type)}</p></p>
-        <p>Altezza: <p class="card-subtitle">${pokeman.height} cm</p></p>
-        <p>Peso: <p class="card-subtitle">${pokeman.weight} kg</p></p>
+        <div class="container">
+            <div class="row my-3">
+            <div class="col">
+                <p>Tipo:</p>
+            </div>
+            <div class="col-9">
+                    <p class="card-subtitle">${pokemonType(pokeman.type)}</p>
+                </div>
+            </div>
+            <div class="row justify-content-between my-3">
+                <div class="col-8">
+                    <p>Altezza:</p>
+                </div>
+                <div class="col">
+                    <p class="card-subtitle">${pokeman.height} cm</p>
+                </div>
+            </div>
+            <div class="row justify-content-between my-3">
+                <div class="col-8">
+                    <p>Peso:</p>
+                </div>
+                <div class="col">
+                    <p class="card-subtitle">${pokeman.weight} kg</p>
+                </div>
+            </div>
+        </div>
     </li>
     <li class="cardo2">
-        <p>Attacco:<p class="card-subtitle">${pokeman.attack}</p></p>
-        <p>Attacco Speciale:<p class="card-subtitle">${pokeman.special_attack}</p></p>
-        <p>Difesa:<p class="card-subtitle">${pokeman.defense}</p></p>
-        <p>Difesa Speciale:<p class="card-subtitle">${pokeman.special_defense}</p></p>
-        <p>Velocità:<p class="card-subtitle">${pokeman.speed}</p></p>
+    <div class="row justify-content-between my-2">
+                <div class="col-8">
+                    <p>Attacco:</p>
+                </div>
+                <div class="col">
+                    <p class="card-subtitle">${pokeman.attack}</p>
+                </div>
+            </div>
+            <div class="row justify-content-between my-2">
+            <div class="col-8">
+                <p>Attacco Speciale:</p>
+            </div>
+            <div class="col">
+                <p class="card-subtitle">${pokeman.special_attack}</p>
+            </div>
+        </div>
+        <div class="row justify-content-between my-2">
+                <div class="col-8">
+                    <p>Difesa:</p>
+                </div>
+                <div class="col">
+                    <p class="card-subtitle">${pokeman.defense}</p>
+                </div>
+            </div>
+            <div class="row justify-content-between my-2">
+                <div class="col-8">
+                    <p>Difesa Speciale:</p>
+                </div>
+                <div class="col">
+                    <p class="card-subtitle">${pokeman.special_defense}</p>
+                </div>
+            </div>
+            <div class="row justify-content-between my-2">
+                <div class="col-8">
+                    <p>Velocità:</p>
+                </div>
+                <div class="col">
+                    <p class="card-subtitle">${pokeman.speed} </p>
+                </div>
+            </div>
+
     </li>`;
     
     document.getElementById('pokemon').innerHTML = pokemonHTMLString;
