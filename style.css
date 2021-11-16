@@ -109,25 +109,21 @@ h1 {
   color: #666;
   font-weight: lighter;
 }
+p.card-subtitle{
+  text-align: right;
+}
 
 .card-image {
   height: 200px;
   width: 200px;
 }
 
-.cardo {
-  list-style: none;
-  padding: 40px;
-  background-color: #f4f4f4;
-  color: #222;
-}
-
-
 .cardo2 {
   list-style: none;
   padding: 40px;
   background-color: #f4f4f4;
   color: #222;
+  border-radius: 5px;
 }
 
 .cardo:hover {
@@ -149,6 +145,7 @@ h1 {
 .card-image2 {
   height: 300px;
   width: 300px;
+  cursor:pointer;
 }
 
 
@@ -170,7 +167,9 @@ h1 {
   }
 }
 
-li { cursor: pointer; }
+li.card { cursor:
+   pointer; 
+}
 
 .Normale {
   background-color: #a8a878;

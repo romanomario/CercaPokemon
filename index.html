@@ -17,7 +17,7 @@
     <h1 class="title my-4">Cerca Pokémon</h1>
     <div class="container">
 
-        <div class="searchBar">
+        <div class="searchBar" onclick="clickSearchBar()">
             <form method="post">
                 <input type="text" name="pokemon" id="search" autocomplete="off" placeholder="Es: Charizard" autofocus>
             </form>
@@ -32,12 +32,9 @@
             
             <button class="button" onclick="comeback()" id="button">Torna indietro</button>
             <div id="pokemon" class="d-none"></div>
-            <div id="pokedex" class="d-none"></div>
+            <div id="pokedex" class="justify-content-center d-none"></div>
             <ul id="error"></ul>
         </div>
-        
-
-
 </body>
 
 </html>
