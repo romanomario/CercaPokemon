@@ -1,68 +1,58 @@
 $(document).ready(function() {
-    displayNone('loading');
 
-    //metaKey altKey ctrlKey
-    $("input").keydown(function(e) {
-        if((!e.shiftKey) && (!e.metaKey) && (!e.altKey) && (e.crtlKey)){
-            displayBlock('loading');
-        }
-    });
-    
     var timeout = null
     $('input').on('keyup', function(e) {
         clearTimeout(timeout)
         timeout = setTimeout(function() {
             e.preventDefault();
-            if((!e.shiftKey) && (!e.metaKey) && (!e.altKey) && (e.crtlKey)){
-                Ricerca();
-            }
+            Ricerca();
         }, 500)
     })
-    
+
     $("form").on("submit", function(e) {
         e.preventDefault();
         Ricerca();
     });
 });
 
-function Ricerca(){
+function Ricerca() {
     addClass('pokemon');
     removeClass('pokedex');
     addClass('button');
 
     const userInput = document.getElementById('search').value.toLowerCase();
     var input = correctInput(userInput);
-    
-    if(input == ""){ 
+
+    if (input == "") {
         displayPokemon([]);
         displayNone('loading');
         displayNone('error');
         console.log("Non è stata inserita nessuna stringa");
-    }else{
+    } else {
         displayNone('error');
-        fetchPokemon(input).then((pokemonList) =>{
-            if(pokemonList == false){
+        fetchPokemon(input).then((pokemonList) => {
+            if (pokemonList == false) {
                 displayError(userInput);
                 displayBlock('error');
             }
-            displayPokemon(pokemonList,input);
+            displayPokemon(pokemonList, input);
         }).catch((err) => {
             console.log(err);
         }).finally(() => {
             displayNone('loading');
-        });   
+        });
     }
 }
 
-function correctInput(userInput){
+function correctInput(userInput) {
     var input = [];
 
-    userInput.trim();//elimina spazi iniziali e finali
+    userInput.trim(); //elimina spazi iniziali e finali
 
     userInput = userInput.split(' ');
 
     userInput.forEach(element => {
-        if(element.trim()){
+        if (element.trim()) {
             input.push(element.trim());
         }
     });
@@ -72,51 +62,55 @@ function correctInput(userInput){
     return input;
 }
 
-function displayNone(id){
+function caricamento() {
+    displayBlock('loading');
+}
+
+function displayNone(id) {
     document.getElementById(id).style.display = 'none';
 }
 
-function displayBlock(id){
+function displayBlock(id) {
     document.getElementById(id).style.display = 'block';
 }
 
 function displayError(msg) {
     console.log("Non è stato trovato nessun pokemon: " + msg);
-    document.getElementById('error').innerHTML = '<li class="card"><p class="card-subtitle"> Non è stato trovato nessun pokemon ' + msg + '</p></li>';
+    document.getElementById('error').innerHTML = '<li class="cardo2"><p class="card-subtitle"> Non è stato trovato nessun pokemon ' + msg + '</p></li>';
 }
 
-function mySorter(a, b){
+function mySorter(a, b) {
     var vA = a.punteggio;
     var vB = b.punteggio;
-    if(vA > vB) return -1;
-    if(vA < vB) return 1;
+    if (vA > vB) return -1;
+    if (vA < vB) return 1;
     return 0;
 }
 
-function removeClass(id){
+function removeClass(id) {
     const s = "#" + id;
     $(s).removeClass('d-none');
 }
 
-function addClass(id){
+function addClass(id) {
     const s = "#" + id;
     $(s).addClass('d-none');
 }
 
-function scheda(val){
+function scheda(val) {
     removeClass('button');
     addClass('pokedex');
     removeClass('pokemon');
-    fetchPokemonComplete(val).then((pokemon) =>{
+    fetchPokemonComplete(val).then((pokemon) => {
         displayPokemonComplete(pokemon);
     });
 }
 
-function clickSearchBar(){
+function clickSearchBar() {
     document.getElementById('search').focus();
 }
 
-function comeback(){
+function comeback() {
     console.log("Stiamo tornando indietro");
     removeClass('pokedex');
     addClass('pokemon');
@@ -124,7 +118,7 @@ function comeback(){
     document.getElementById('search').focus();
 }
 // Precondition: inputs cannot contain "".
-function occNome(nome,input){
+function occNome(nome, input) {
 
     const x = [];
 
@@ -133,7 +127,7 @@ function occNome(nome,input){
             let j = 0;
             const word = input[p];
             if (nome[i] === word[j]) {
-                if(word.length === 1){
+                if (word.length === 1) {
                     if (!x.includes(i)) {
                         x.push(i);
                     }
@@ -153,8 +147,7 @@ function occNome(nome,input){
                             }
                             i++;
                         }
-                    } else {
-                    }
+                    } else {}
                 }
             }
         }
@@ -165,7 +158,8 @@ function occNome(nome,input){
     nome = capitalize(nome);
 
     let stringa = "<h2>";
-    let i = 0, j = 0;
+    let i = 0,
+        j = 0;
     let inBox = false;
     while (i < nome.length) {
         if (!inBox && i === x[j]) {
@@ -186,11 +180,11 @@ function occNome(nome,input){
     return stringa;
 }
 
-function capitalize(sentence){
+function capitalize(sentence) {
     return sentence && (sentence[0].toUpperCase() + sentence.slice(1).toLowerCase());
 }
 
-function displayPokemon(pokemon,input) {
+function displayPokemon(pokemon, input) {
     pokemon.sort(mySorter);
 
     const pokemonHTMLString = pokemon
@@ -199,17 +193,16 @@ function displayPokemon(pokemon,input) {
             <img class="card-image mx-auto d-block" src="${pokeman.image} "/>
             <h2 class="card-title">${pokeman.id}. ${occNome(pokeman.name,input)}</h2>
         </li>
-    `
-        )
+        `)
         .join('');
-    
+
     document.getElementById('pokedex').innerHTML = pokemonHTMLString;
 }
 
 function displayPokemonComplete(pokeman) {
 
     displayBlock("button");
-    const pokemonHTMLString =`
+    const pokemonHTMLString = `
     <li class="cardo2">
         <img class="card-image2 mx-auto" id="pokemon_showcase_image"
              onclick="alternatePokemonShowcaseImage()"
@@ -221,25 +214,25 @@ function displayPokemonComplete(pokeman) {
     </li>
     <li class="cardo2">
         <div class="container">
-            <div class="row my-3">
+            <div class="row my-4">
             <div class="col">
-                <p>Tipo:</p>
+                <p style="text-align: left;">Tipo:</p>
             </div>
             <div class="col-9">
                     <p class="card-subtitle" style="text-align: right; margin-top:-5px; margin-right:-3px;">${pokemonType(pokeman.type)}</p>
                 </div>
             </div>
-            <div class="row justify-content-between my-3">
+            <div class="row justify-content-between my-4">
                 <div class="col-8">
-                    <p>Altezza:</p>
+                    <p style="text-align: left;">Altezza:</p>
                 </div>
                 <div class="col">
                     <p class="card-subtitle text-right" style="text-align: right;">${pokeman.height} cm</p>
                 </div>
             </div>
-            <div class="row justify-content-between my-3">
+            <div class="row justify-content-between my-4">
                 <div class="col-8">
-                    <p>Peso:</p>
+                    <p style="text-align: left;">Peso:</p>
                 </div>
                 <div class="col">
                     <p class="card-subtitle text-right" style="text-align: right;">${(pokeman.weight)/10} kg</p>
@@ -248,41 +241,41 @@ function displayPokemonComplete(pokeman) {
         </div>
     </li>
     <li class="cardo2">
-    <div class="row justify-content-between my-3">
+    <div class="row justify-content-between my-4">
                 <div class="col-8">
-                    <p>Attacco:</p>
+                    <p style="text-align: left;">Attacco:</p>
                 </div>
                 <div class="col">
                     <p class="card-subtitle" style="text-align: right;">${pokeman.attack}</p>
                 </div>
             </div>
-            <div class="row justify-content-between my-3">
+            <div class="row justify-content-between my-4">
             <div class="col-8">
-                <p>Attacco Speciale:</p>
+                <p style="text-align: left;" >Attacco Speciale:</p>
             </div>
             <div class="col">
                 <p class="card-subtitle" style="text-align: right;">${pokeman.special_attack}</p>
             </div>
         </div>
-        <div class="row justify-content-between my-3">
+        <div class="row justify-content-between my-4">
                 <div class="col-8">
-                    <p>Difesa:</p>
+                    <p style="text-align: left;" >Difesa:</p>
                 </div>
                 <div class="col">
                     <p class="card-subtitle " style="text-align: right;">${pokeman.defense}</p>
                 </div>
             </div>
-            <div class="row justify-content-between my-3">
+            <div class="row justify-content-between my-4">
                 <div class="col-8">
-                    <p>Difesa Speciale:</p>
+                    <p style="text-align: left;" >Difesa Speciale:</p>
                 </div>
                 <div class="col">
                     <p class="card-subtitle" style="text-align: right;">${pokeman.special_defense}</p>
                 </div>
             </div>
-            <div class="row justify-content-between my-3">
+            <div class="row justify-content-between my-4">
                 <div class="col-8">
-                    <p>Velocità:</p>
+                    <p style="text-align: left;" >Velocità:</p>
                 </div>
                 <div class="col">
                     <p class="card-subtitle" style="text-align: right;">${pokeman.speed} </p>
@@ -290,22 +283,23 @@ function displayPokemonComplete(pokeman) {
             </div>
 
     </li>`;
-    
+
     document.getElementById('pokemon').innerHTML = pokemonHTMLString;
 }
 
 function pokemonType(types) {
-    var a=[],s=[];
+    var a = [],
+        s = [];
     a = types.split(' ');
 
     a.forEach(element => {
-      s = s + '<span class="pokeType poke-info ' + element + '">' + element + '</span> ';  
+        s = s + '<span class="pokeType poke-info ' + element + '">' + element + '</span> ';
     });
 
     return s;
 }
 
-function alternatePokemonShowcaseImage(){
+function alternatePokemonShowcaseImage() {
     const pokemonShowcaseImage = $('#pokemon_showcase_image');
     const src = pokemonShowcaseImage.attr('src');
     const frontSrc = pokemonShowcaseImage.attr('meta-front-src');
