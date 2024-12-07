@@ -1,0 +1,84 @@
+/* Impostazioni generali */
+body {
+    font-family: 'Rubik', sans-serif;
+    background: linear-gradient(to bottom, #ffcc00, #ff5733); /* Sfondo giallo/arancio */
+    color: #333333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Stile del contenitore principale */
+.container {
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo bianco semi-trasparente */
+    border: 3px solid #ffcc00; /* Bordo giallo */
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Effetto ombra */
+}
+
+/* Titolo principale */
+h1 {
+    font-size: 3rem;
+    color: #ff0000; /* Rosso ispirato alla Pokéball */
+    text-shadow: 2px 2px #000; /* Effetto ombra */
+    font-weight: bold;
+}
+
+/* Etichette dei campi */
+.form-label {
+    font-size: 1.2rem;
+    color: #007bff; /* Blu stile acqua */
+    font-weight: bold;
+}
+
+/* Input campi */
+.form-control {
+    border: 2px solid #007bff; /* Bordo blu */
+    border-radius: 10px;
+    font-size: 1rem;
+    padding: 10px;
+}
+
+.form-control:focus {
+    border-color: #ff0000; /* Bordo rosso al focus */
+    box-shadow: 0 0 10px #ff0000; /* Glow rosso */
+}
+
+/* Bottone */
+.btn-primary {
+    background-color: #ff0000; /* Rosso Pokémon */
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-shadow: 1px 1px #000;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #cc0000; /* Rosso scuro al passaggio */
+    transform: scale(1.1); /* Leggera ingrandimento */
+}
+
+/* Effetto layout responsivo */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+    .btn-primary {
+        font-size: 1.2rem;
+    }
+}
+
+/* Decorazioni aggiuntive */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png') no-repeat top right; /* Pikachu */
+    opacity: 0.1; /* Trasparente per non disturbare */
+    z-index: -1;
+}

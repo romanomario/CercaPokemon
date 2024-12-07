@@ -1,4 +1,4 @@
-const tipo = {
+const tipo = { 
     normal: 'Normale',
     grass: 'Erba',
     gound: 'Terra',
