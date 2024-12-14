@@ -82,3 +82,8 @@ body::before {
     opacity: 0.1; /* Trasparente per non disturbare */
     z-index: -1;
 }
+
+.d-none {
+    display: none;
+}
+
