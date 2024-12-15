@@ -8,7 +8,6 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet"/>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-    <script src="/js/battle.js"></script>
 </head>
 <body>
     <div class="container mt-5">
@@ -36,41 +35,33 @@
             </div>
         </form>
     </div>
-    <div id="pokemonSelection" class="d-none mt-4">
+    
+    <div id="pokemonSelectionContainer" class="d-none mt-4">
         <h2 class="text-center">Seleziona i tuoi Pokémon</h2>
         <div class="row">
             <!-- Selezione per Giocatore 1 -->
             <div class="col-md-6">
-                <h4>Giocatore 1</h4>
-                <div id="player1Pokemons"></div>
+                <h4 id="player1Name">Giocatore 1</h4>
+                <div id="player1Slots" class="d-flex flex-wrap"></div>
             </div>
             <!-- Selezione per Giocatore 2 -->
             <div class="col-md-6">
-                <h4>Giocatore 2</h4>
-                <div id="player2Pokemons"></div>
+                <h4 id="player2Name">Giocatore 2</h4>
+                <div id="player2Slots" class="d-flex flex-wrap"></div>
             </div>
+        </div>
+        <div id="pokemonListContainer" class="mt-4">
+            <h4 class="text-center">Seleziona un Pokémon dalla lista</h4>
+            <div id="pokemonList" class="d-flex flex-wrap"></div>
         </div>
         <div class="text-center mt-4">
             <button id="startBattle" class="btn btn-success d-none">Inizia la Battaglia</button>
         </div>
     </div>
-    <div id="pokemonSelection" class="container mt-5 d-none">
-        <div class="row">
-            <div class="col-md-6">
-                <h4>Giocatore 1</h4>
-                <div id="player1Pokemons"></div>
-            </div>
-            <div class="col-md-6">
-                <h4>Giocatore 2</h4>
-                <div id="player2Pokemons"></div>
-            </div>
-        </div>
-        <div class="text-center mt-4">
-            <button id="startBattle" class="btn btn-success d-none">Inizia la Battaglia</button>
-        </div>
-    </div>
+    
     <div id="battleLog" class="mt-4"></div>
     <div id="results" class="mt-4"></div>
-
+    
+    <script src="/js/battle.js"></script>
 </body>
 </html>
