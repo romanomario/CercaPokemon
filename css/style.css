@@ -82,8 +82,30 @@ body::before {
     opacity: 0.1; /* Trasparente per non disturbare */
     z-index: -1;
 }
-
+/* capire se questa regola sta colpendo */  
 .d-none {
-    display: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+
+#battleArea {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border: 2px solid black;
+    background-color: #f4f4f4;
+}
+
+.pokemon-battle {
+    width: 40%;
+    text-align: center;
+}
+
+#battleLog {
+    text-align: center;
+    margin-top: 10px;
+    font-family: monospace;
 }
 

@@ -91,27 +91,32 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     pokemonList.addEventListener("click", function (event) {
-        if (event.target.classList.contains("select-pokemon")) {
-            const pokemonName = event.target.getAttribute("data-name");
-            const pokemonImage = event.target.getAttribute("data-image");
-            const pokemonHp = event.target.getAttribute("data-hp");
-            const pokemonAttack = event.target.getAttribute("data-attack");
-            const pokemonDefense = event.target.getAttribute("data-defense");
+    if (event.target.classList.contains("select-pokemon")) {
+        const pokemonName = event.target.getAttribute("data-name");
+        const pokemonImage = event.target.getAttribute("data-image");
+        const pokemonHp = event.target.getAttribute("data-hp");
+        const pokemonAttack = event.target.getAttribute("data-attack");
+        const pokemonDefense = event.target.getAttribute("data-defense");
 
-            if (currentPlayer === 1 && player1Selected.length < 5) {
-                addPokemonToSlot(player1Slots, player1Selected, pokemonName, pokemonImage, pokemonHp, pokemonAttack, pokemonDefense);
-                if (player1Selected.length === 5) currentPlayer = 2;
-            } else if (currentPlayer === 2 && player2Selected.length < 5) {
-                addPokemonToSlot(player2Slots, player2Selected, pokemonName, pokemonImage, pokemonHp, pokemonAttack, pokemonDefense);
-                if (player2Selected.length === 5) {
-                    startBattleButton.classList.remove("d-none");
-                    alert("Entrambi i giocatori hanno selezionato i loro Pokémon!");
-                }
-            } else {
-                alert("Il giocatore corrente ha già scelto 5 Pokémon.");
+        if (currentPlayer === 1 && player1Selected.length < 5) {
+            addPokemonToSlot(player1Slots, player1Selected, pokemonName, pokemonImage, pokemonHp, pokemonAttack, pokemonDefense);
+            if (player1Selected.length === 5) currentPlayer = 2;
+        } else if (currentPlayer === 2 && player2Selected.length < 5) {
+            addPokemonToSlot(player2Slots, player2Selected, pokemonName, pokemonImage, pokemonHp, pokemonAttack, pokemonDefense);
+            if (player2Selected.length === 5) {
+                startBattleButton.classList.remove("d-none");
+
+                // Nascondi la lista dei Pokémon selezionabili
+                pokemonList.classList.add("d-none"); // Assicurati che la classe d-none sia definita nel CSS
+
+                alert("Entrambi i giocatori hanno selezionato i loro Pokémon!");
             }
+        } else {
+            alert("Il giocatore corrente ha già scelto 5 Pokémon.");
         }
-    });
+    }
+});
+
 
     function addPokemonToSlot(container, selectedList, name, image, hp, attack, defense) {
         const emptySlot = Array.from(container.children).find((slot) => slot.textContent === "Vuoto");
@@ -124,4 +129,85 @@ document.addEventListener("DOMContentLoaded", function () {
             selectedList.push({ name, image, hp, attack, defense });
         }
     }
+
+    // viene avviata quando si clicca start battle
+    document.querySelector("#startBattle").addEventListener("click", function () {
+        console.log('Bottone Inizia la Battaglia cliccato!');
+        console.log('POkémon primo giocatore');
+        console.log(player1Selected); //lista pokemon giocatore 1
+        console.log('POkémon secondo giocatore');
+        console.log(player2Selected); // lista pokemno giocatore 2
+        // todo @mario far iniziare la battaglia tra tutti i pokomon selezionati
+        document.querySelector("#startBattle").addEventListener("click", function () {
+            if (player1Selected.length > 0 && player2Selected.length > 0) {
+                const player1Pokemon = player1Selected[0];
+                const player2Pokemon = player2Selected[0];
+        
+                // Mostra l'area di battaglia
+                const battleArea = document.getElementById("battleArea");
+                battleArea.classList.remove("d-none");
+        
+                // Visualizza i Pokémon in battaglia
+                const player1Battle = document.getElementById("player1Pokemon");
+                const player2Battle = document.getElementById("player2Pokemon");
+        
+                player1Battle.innerHTML = `
+                    <img src="${player1Pokemon.image}" alt="${player1Pokemon.name}" class="img-fluid">
+                    <p><strong>${player1Pokemon.name}</strong></p>
+                    <p>HP: ${player1Pokemon.hp}</p>
+                `;
+                player2Battle.innerHTML = `
+                    <img src="${player2Pokemon.image}" alt="${player2Pokemon.name}" class="img-fluid">
+                    <p><strong>${player2Pokemon.name}</strong></p>
+                    <p>HP: ${player2Pokemon.hp}</p>
+                `;
+        
+                // Avvia la battaglia
+                startTurnBasedBattle(player1Pokemon, player2Pokemon);
+            } else {
+                alert("Entrambi i giocatori devono selezionare almeno un Pokémon per iniziare la battaglia.");
+            }
+        });
+        
+        function startTurnBasedBattle(pokemon1, pokemon2) {
+            let turn = 1;
+            let pokemon1Hp = pokemon1.hp;
+            let pokemon2Hp = pokemon2.hp;
+        
+            const battleLog = document.getElementById("battleLog");
+        
+            function battleTurn() {
+                if (pokemon1Hp <= 0 || pokemon2Hp <= 0) {
+                    const winner = pokemon1Hp > 0 ? pokemon1.name : pokemon2.name;
+                    battleLog.textContent = `La battaglia è terminata! Il vincitore è ${winner}!`;
+                    return;
+                }
+        
+                battleLog.textContent = `Turno ${turn}: `;
+                if (turn % 2 !== 0) {
+                    // Turno del Pokémon 1
+                    const damage = Math.max(pokemon1.attack - pokemon2.defense, 1);
+                    pokemon2Hp -= damage;
+                    battleLog.textContent += `${pokemon1.name} attacca ${pokemon2.name} infliggendo ${damage} danni!`;
+                } else {
+                    // Turno del Pokémon 2
+                    const damage = Math.max(pokemon2.attack - pokemon1.defense, 1);
+                    pokemon1Hp -= damage;
+                    battleLog.textContent += `${pokemon2.name} attacca ${pokemon1.name} infliggendo ${damage} danni!`;
+                }
+        
+                // Aggiorna gli HP visualizzati
+                document.querySelector("#player1Pokemon p:nth-child(3)").textContent = `HP: ${Math.max(pokemon1Hp, 0)}`;
+                document.querySelector("#player2Pokemon p:nth-child(3)").textContent = `HP: ${Math.max(pokemon2Hp, 0)}`;
+        
+                turn++;
+                setTimeout(battleTurn, 1000);
+            }
+        
+            battleTurn();
+        }
+        
+    });
+
 });
+
