@@ -211,3 +211,77 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
+function startTurnBasedBattle(team1, team2) {
+    let currentPokemonIndex1 = 0;
+    let currentPokemonIndex2 = 0;
+    let turn = 1;
+
+    const battleLog = document.getElementById("battleLog");
+
+    function getCurrentPokemon(team, index) {
+        return index < team.length ? team[index] : null;
+    }
+
+    function updateHpDisplay(pokemon1, pokemon2) {
+        const player1HpElement = document.querySelector("#player1Pokemon p:nth-child(3)");
+        const player2HpElement = document.querySelector("#player2Pokemon p:nth-child(3)");
+        if (player1HpElement) {
+            player1HpElement.textContent = `HP: ${pokemon1 ? Math.max(pokemon1.hp, 0) : 0}`;
+        }
+        if (player2HpElement) {
+            player2HpElement.textContent = `HP: ${pokemon2 ? Math.max(pokemon2.hp, 0) : 0}`;
+        }
+    }
+
+    function battleTurn() {
+        let pokemon1 = getCurrentPokemon(team1, currentPokemonIndex1);
+        let pokemon2 = getCurrentPokemon(team2, currentPokemonIndex2);
+
+        // Se uno dei team non ha più Pokémon, la battaglia termina
+        if (!pokemon1) {
+            battleLog.textContent = "La battaglia è terminata! Il vincitore è Giocatore 2!";
+            return;
+        }
+        if (!pokemon2) {
+            battleLog.textContent = "La battaglia è terminata! Il vincitore è Giocatore 1!";
+            return;
+        }
+
+        // Controlla se uno dei Pokémon è stato sconfitto
+        if (pokemon1.hp <= 0) {
+            currentPokemonIndex1++;
+            battleLog.textContent = `${pokemon1.name} è stato sconfitto!`;
+            setTimeout(battleTurn, 2000);
+            return;
+        }
+
+        if (pokemon2.hp <= 0) {
+            currentPokemonIndex2++;
+            battleLog.textContent = `${pokemon2.name} è stato sconfitto!`;
+            setTimeout(battleTurn, 2000);
+            return;
+        }
+
+        // Esegue il turno
+        battleLog.textContent = `Turno ${turn}: `;
+        if (turn % 2 !== 0) {
+            // Turno del Pokémon 1
+            const damage = Math.max(pokemon1.attack - pokemon2.defense, 1);
+            pokemon2.hp -= damage;
+            battleLog.textContent += `${pokemon1.name} attacca ${pokemon2.name} infliggendo ${damage} danni!`;
+        } else {
+            // Turno del Pokémon 2
+            const damage = Math.max(pokemon2.attack - pokemon1.defense, 1);
+            pokemon1.hp -= damage;
+            battleLog.textContent += `${pokemon2.name} attacca ${pokemon1.name} infliggendo ${damage} danni!`;
+        }
+
+        // Aggiorna gli HP visualizzati
+        updateHpDisplay(pokemon1, pokemon2);
+
+        turn++;
+        setTimeout(battleTurn, 1000);
+    }
+
+    battleTurn();
+}
