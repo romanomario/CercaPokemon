@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Nascondi la lista dei Pokémon selezionabili
                 pokemonList.classList.add("d-none"); // Assicurati che la classe d-none sia definita nel CSS
 
-                alert("Entrambi i giocatori hanno selezionato i loro Pokémon!");
+                battleLog.textContent = "Le squadre sono pronte! La battaglia sta per iniziare!";
             }
         } else {
             alert("Il giocatore corrente ha già scelto 5 Pokémon.");
@@ -236,8 +236,8 @@ function startTurnBasedBattle(team1, team2) {
     function battleTurn() {
         let pokemon1 = getCurrentPokemon(team1, currentPokemonIndex1);
         let pokemon2 = getCurrentPokemon(team2, currentPokemonIndex2);
-
-        // Se uno dei team non ha più Pokémon, la battaglia termina
+    
+        // Controllo se uno dei team non ha più Pokémon
         if (!pokemon1) {
             battleLog.textContent = "La battaglia è terminata! Il vincitore è Giocatore 2!";
             return;
@@ -246,22 +246,22 @@ function startTurnBasedBattle(team1, team2) {
             battleLog.textContent = "La battaglia è terminata! Il vincitore è Giocatore 1!";
             return;
         }
-
-        // Controlla se uno dei Pokémon è stato sconfitto
+    
+        // Controllo se uno dei Pokémon è stato sconfitto
         if (pokemon1.hp <= 0) {
             currentPokemonIndex1++;
             battleLog.textContent = `${pokemon1.name} è stato sconfitto!`;
-            setTimeout(battleTurn, 2000);
+            setTimeout(battleTurn, 3000); // Aumentato il ritardo per dare più tempo tra i turni
             return;
         }
-
+    
         if (pokemon2.hp <= 0) {
             currentPokemonIndex2++;
             battleLog.textContent = `${pokemon2.name} è stato sconfitto!`;
-            setTimeout(battleTurn, 2000);
+            setTimeout(battleTurn, 3000); // Aumentato il ritardo per dare più tempo tra i turni
             return;
         }
-
+    
         // Esegue il turno
         battleLog.textContent = `Turno ${turn}: `;
         if (turn % 2 !== 0) {
@@ -275,13 +275,17 @@ function startTurnBasedBattle(team1, team2) {
             pokemon1.hp -= damage;
             battleLog.textContent += `${pokemon2.name} attacca ${pokemon1.name} infliggendo ${damage} danni!`;
         }
-
+    
         // Aggiorna gli HP visualizzati
         updateHpDisplay(pokemon1, pokemon2);
-
+    
         turn++;
-        setTimeout(battleTurn, 1000);
+        setTimeout(battleTurn, 2000); // Rallentato il ritmo tra i turni
     }
-
-    battleTurn();
+    
+    // Inizializza la battaglia senza alert
+    battleLog.textContent = "La battaglia sta per iniziare!";
+    setTimeout(battleTurn, 2000); // Aggiunto un leggero ritardo prima dell'inizio
+    
 }
+
